@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+	<title>Harmonograph</title>
+	<link rel="shortcut icon" href="./favicon.ico">
+	<style>
+		body {
+			background: #24292e;
+			color: #fff;
+			margin: 0;
+			padding: 0 20px;
+			font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+			font-size: 24px;
+			min-width: 700px;
+		}
+
+		main {
+			margin: 60px auto;
+			max-width: 800px;
+		}
+
+		h1 {
+			border-top: solid 2px #fff;
+			padding-top: 40px;
+			margin-top: 20px;
+			font-size: 64px;
+		}
+
+		.install-information:after {
+			content: "";
+			clear: both;
+			display: table;
+		}
+
+		.install-information code {
+			float: left;
+		}
+
+		.install-information a {
+			font-size: 14px;
+			float: right;
+		}
+
+		code {
+			font-size: 14px;
+			font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, Courier, monospace;
+		}
+
+		a {
+			color: #fff;
+		}
+
+		canvas {
+			position: absolute;
+			top: 0;
+			left: 0;
+			width: 100%;
+			height: 100%;
+			z-index: -1;
+		}
+	</style>
+</head>
+<body>
+	<main>
+		<p class="install-information">
+			<code>npm i harmonograph --save</code>
+			<a href="https://github.com/alex-page/harmonograph">Github</a>
+		</p>
+		<h1>Harmonograph</h1>
+		<p>Draw beautiful geometric shapes in the browser</p>
+	</main>
+	<canvas id="example">
+		This only works with modern browsers that <a href="https://caniuse.com/#feat=canvas"></a>support the `canvas`</a> element.
+	</canvas>
+	<script src="./index.js" ></script>
+	<script>Harmonograph( document.getElementById( 'example' ) );</script>
+</body>
+</html>

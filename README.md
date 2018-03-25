@@ -1,5 +1,5 @@
 🖼 Harmonograph
 ==============
 
-> Draw geometric lissajous curves to canvas
+> Draw beautiful geometric shapes in the browser
 

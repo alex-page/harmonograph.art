@@ -52,15 +52,6 @@
 		a {
 			color: #fff;
 		}
-
-		canvas {
-			position: absolute;
-			top: 0;
-			left: 0;
-			width: 100%;
-			height: 100%;
-			z-index: -1;
-		}
 	</style>
 </head>
 <body>
@@ -72,7 +63,7 @@
 		<h1>Harmonograph</h1>
 		<p>Draw beautiful geometric shapes in the browser</p>
 	</main>
-	<canvas id="example">
+	<canvas id="example" width="800" height="800">
 		This only works with modern browsers that <a href="https://caniuse.com/#feat=canvas"></a>support the `canvas`</a> element.
 	</canvas>
 	<script src="./index.js" ></script>

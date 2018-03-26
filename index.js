@@ -10,23 +10,40 @@
 'use strict';
 
 
+const GenerateRandomInteger = ( min, max ) => {
+  return min + Math.random() * ( max + 1 - min );
+}
+
 const SETTINGS = {
-	distanceBetweenPendulums: 900,
-	paperCenter: 800,
-	lengthOfPenArm: 700,
-	paperRadius: 300,
-	leftPendulumAmplitude: 100,
-	rightPendulumAmplitude: 100,
-	leftPendulumPhase: 0,
-	rightPendulumPhase: 0,
-	leftPendulumDamping: 0.001,
-	rightPendulumDamping: 0.001,
-	leftPendulumFrequency: 0.3,
-	rightPendulumFrequency: 0.302,
-	paperRotationFrequency: 0.0008,
 	speed: 1,
-	lineWidth: 2,
-	lineColor: '#fff',
+	line: {
+		width: 0.2,
+		color: '#fff'
+	},
+	pendulum: [{
+		amplitude: GenerateRandomInteger( 0, 360 ),
+		frequency: ( 2 + Math.random() / 40 ) % 10,
+		phase: GenerateRandomInteger( 0, 1.5 ) % ( Math.PI * 2 ),
+		damping: 0.02,
+	},
+	{
+		amplitude: GenerateRandomInteger( 0, 360 ),
+		frequency: ( 2 + Math.random() / 40 ) % 10,
+		phase: GenerateRandomInteger( 0, 1.5 ) % ( Math.PI * 2 ),
+		damping: 0.0315,
+	},
+	{
+		amplitude: GenerateRandomInteger( 0, 360 ),
+		frequency: ( 2 + Math.random() / 40 ) % 10,
+		phase: GenerateRandomInteger( 0, 1.5 ) % ( Math.PI * 2 ),
+		damping: 0.02,
+	},
+	{
+		amplitude: GenerateRandomInteger( 0, 360 ),
+		frequency: ( 2 + Math.random() / 40 ) % 10,
+		phase: GenerateRandomInteger( 0, 1.5 ) % ( Math.PI * 2 ),
+		damping: 0.02,
+	}]
 };
 
 
@@ -37,19 +54,37 @@ const SETTINGS = {
  * @param  {object}  settings - The settings that contains url and width
  */
 const Harmonograph = ( element, settings = SETTINGS ) => {
-
 	if( element.getContext ) {
 		let context  = element.getContext( '2d' );
 
 		// Clear the canvas
 		context.clearRect( 0, 0, element.width, element.height );
+		context.save();
 
 		// Apply settings to canvas
-		context.lineWidth   = settings.lineWidth;
-		context.strokeStyle = settings.lineColor;
+		context.beginPath();
+		// context.moveTo( element.width / 2, element.height / 2 )
+		context.lineWidth   = settings.line.width;
+		context.strokeStyle = settings.line.color;
 
-		const vertices = GenerateHarmonograph( settings );
-		DrawHarmonograph( vertices, context, settings );
+		// As time goes by
+		// DrawHarmonograph( element, context, settings );
+		for ( let time = 0; time < 100; time += 0.01 ) {
+			// Calculate movement of each pendulum
+			const movement = settings.pendulum.map( p => {
+				return p.amplitude * Math.sin( p.frequency * time + Math.PI * p.phase ) * Math.exp( -p.damping * time );
+			})
+
+			// Apply the movement to x and y coordinates
+			const x = movement[ 0 ] + movement[ 1 ];
+			const y = movement[ 2 ] + movement[ 3 ];
+
+			context.lineTo( x + element.width / 2, y + element.height / 2 );
+			time += 0.01;
+		}
+
+		context.stroke();
+		context.restore();
 
 	}
 	else {
@@ -58,24 +93,9 @@ const Harmonograph = ( element, settings = SETTINGS ) => {
 	}
 }
 
-
-/**
- * DrawHarmonograph()
- *
- */
-const DrawHarmonograph = ( vertices, context, settings ) => {
-	context.beginPath();
-	context.moveTo( vertices[ 0 ].x, vertices[ 0 ].y );
-
-	vertices.map(( { x, y  }) => {
-		context.lineTo( x, y );
-	});
-
-	context.stroke();
-}
-
 /**
  * The harmonograph movements can be described matematically with the following equations
+ * https://web.archive.org/web/20100904003022/http://hernan.amiune.com/labs/harmonograph/animated-harmonograph.html
  *
  * x = A1 * sin( f1 * t + p1 ) * exp( -d1 * t ) + A2 * sin( f2 * t + p2 ) * exp( -d2 * t )
  * y = A3 * sin( f3 * t + p3 ) * exp( -d3 * t ) + A4 * sin( f4 * t + p4 ) * exp( -d4 * t )
@@ -84,29 +104,24 @@ const DrawHarmonograph = ( vertices, context, settings ) => {
  *
  * @param {*} settings
  */
-const GenerateHarmonograph = ( settings ) => {
-	return [
-		{
-			x: 0,
-			y: 0,
-		},
-		{
-			x: 300,
-			y: 100
-		},
-		{
-			x: 80,
-			y: 200
-		},
-		{
-			x: 10,
-			y: 100
-		},
-		{
-			x: 0,
-			y: 0
-		}
-	];
-}
 
-// Amplitude = Amplitude / 180 * Math.PI
+const DrawHarmonograph = ( element, context, settings, time = 0 ) => {
+
+	// if ( time >= 100 ) {
+	// 	return
+	// }
+
+	// // Calculate movement of each pendulum
+	// const movement = settings.pendulum.map( p => {
+	// 	return p.amplitude * Math.sin( p.frequency * time + Math.PI * p.phase ) * Math.exp( -p.damping * time );
+	// })
+
+	// // Apply the movement to x and y coordinates
+	// const x = movement[ 0 ] + movement[ 1 ];
+	// const y = movement[ 2 ] + movement[ 3 ];
+
+	// context.lineTo( x + element.width / 2, y + element.height / 2 );
+	// time += 0.01;
+
+	// window.requestAnimationFrame( DrawHarmonograph( element, context, settings, time ) );
+}

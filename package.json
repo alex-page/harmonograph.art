@@ -1,0 +1,47 @@
+{
+	"name": "harmonograph",
+	"version": "0.1.0",
+	"description": "Draw beautiful geometric shapes in the browser",
+	"scripts": {
+		"build": "uglifyjs index.js --compress --mangle --output ./harmonograph.min.js",
+		"serve": "browser-sync start --server \"./\" --files \"./harmonograph.min.js\" \"./index.html\"",
+		"watch:js": "onchange \"index.js\" -- npm run build",
+		"watch": "npm run build && npm-run-all --parallel serve watch:*",
+		"prepublish": "npm run build"
+	},
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/alex-page/harmonograph.git"
+	},
+	"keywords": [
+		"harmonograph",
+		"lissajous curves",
+		"art",
+		"geometric"
+	],
+	"main": "src/index.js",
+	"author": {
+		"name": "Alex Page",
+		"email": "alex@alexpage.com.au",
+		"url": "http://alexpage.com.au"
+	},
+	"contributors": [
+		{
+			"name": "Alex Page",
+			"email": "alex@alexpage.com.au",
+			"url": "http://alexpage.com.au"
+		}
+	],
+	"license": "MIT",
+	"bugs": {
+		"url": "https://github.com/alex-page/harmonograph/issues"
+	},
+	"dependencies": {
+		"uglify-js": "^3.3.16"
+	},
+	"devDependencies": {
+		"browser-sync": "^2.23.6",
+		"npm-run-all": "^4.1.2",
+		"onchange": "^3.3.0"
+	}
+}

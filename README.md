@@ -9,7 +9,6 @@
 * [Install](#install)
 * [How to use](#use)
 * [Settings](#settings)
-* [Tests](#tests)
 * [Release History](#release-history)
 
 

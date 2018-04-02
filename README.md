@@ -1,7 +1,7 @@
 🖼 Harmonograph
 ==============
 
-> Draw beautiful randomised lissajous curves in the browser
+> Randomly generated geometric images
 
 
 ## Contents

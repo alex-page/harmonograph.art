@@ -126,6 +126,7 @@ The offset from the normal starting position of a pendulum, must be from `0` to 
 
 ## Release History
 
+* v0.1.1  - Removing example site
 * v0.1.0  - 💥 Initial version
 
 

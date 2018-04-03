@@ -9,6 +9,7 @@
 * [Install](#install)
 * [How to use](#use)
 * [Settings](#settings)
+* [Contributing](#contributing)
 * [Release History](#release-history)
 
 
@@ -124,8 +125,25 @@ The offset from the normal starting position of a pendulum, must be from `0` to 
 ----------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 
+## Contributing
+
+To contribute to the harmonograph project:
+1. Fork the project and clone it locally
+1. Create a new branch for the work that is going to be completed.
+1. Install dependencies `npm i`
+1. Make your changes to the `harmonograph.js` file.
+1. Run `npm run build`
+1. Push your work to github and create a new pull request.
+1. Respond to any code review feedback.
+
+**[⬆ back to top](#contents)**
+
+
+----------------------------------------------------------------------------------------------------------------------------------------------------------------
+
 ## Release History
 
+* v0.1.2  - Removing unused packages
 * v0.1.1  - Removing example site
 * v0.1.0  - 💥 Initial version
 

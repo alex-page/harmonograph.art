@@ -2,14 +2,15 @@
  *
  * index.js - Draw beautiful randomised lissajous curves in the browser
  *
- * RandomNumber   - Get a random number inside a maximum and minimum value
- * RandomPendulum - Create a randomised pendulum swing
- * Harmonograph   - Draw a harmonograph to html5 canvas
+ * RandomNumber     - Get a random number inside a maximum and minimum value
+ * RandomPendulum   - Create a randomised pendulum swing
+ * DrawHarmonograph - Draw each of the points on a frame
+ * Harmonograph     - Create the canvas, harmonograph points and start draw
  *
  **************************************************************************************************************************************************************/
 
 
-'use strict';
+// 'use strict';
 
 
 /**
@@ -53,6 +54,43 @@ function RandomPendulum() {
 
 
 /**
+ * DrawHarmonograph - Draw each of the points on a frame
+ *
+ * @param {object} context      - The HTML5 canvas to draw onto
+ * @param {array}  harmonograph - The points of the harmonograph
+ * @param {number} width        - The width of the line
+ * @param {string} color        - The color of the harmonograph
+ * @param {number} totalFrames  - The total frames
+ */
+function DrawHarmonograph( context, harmonograph, width, color, totalFrames ){
+	var totalFrames = totalFrames ? totalFrames : 0;
+
+	// Check if we should stop drawing the harmonograph
+	if( harmonograph[ totalFrames ] === undefined ) {
+		cancelAnimationFrame( DrawHarmonograph );
+		return;
+	}
+
+	// Line settings for stroke
+	context.lineWidth             = width;
+	context.strokeStyle           = color;
+
+	// Draw a connected line at the next x and y point
+	var xc = ( harmonograph[ totalFrames ].x + harmonograph[ totalFrames + 1 ].x ) / 2;
+	var yc = ( harmonograph[ totalFrames ].y + harmonograph[ totalFrames + 1].y ) / 2;
+	context.quadraticCurveTo( harmonograph[ totalFrames ].x, harmonograph[ totalFrames ].y, xc, yc );
+	context.stroke();
+
+	totalFrames += 1;
+
+	// Draw the next point on the next frame
+	requestAnimationFrame( function() {
+		return DrawHarmonograph( context, harmonograph, width, color, totalFrames );
+	});
+}
+
+
+/**
  * Harmonograph - Draw a harmonograph to html5 canvas
  *
  * Resources:
@@ -61,6 +99,7 @@ function RandomPendulum() {
  *
  * @param  {object}  settings.element     - The canvas element to have the harmonograph drawn inside
  * @param  {number}  settings.speed       - The speed of the drawing
+ * @param  {number}  settings.width       - The width of the line
  * @param  {number}  settings.color       - The color of the harmonograph
  * @param  {number}  settings.drawingTime - How long until drawing should stop
  * @param  {array}   settings.pendulum    - The pendulum settings, see RandomPendulum
@@ -72,7 +111,7 @@ function Harmonograph( settings ) {
 
 		// If the values don't exist set a default value
 		var speed       = settings.speed       ? settings.speed       : 10;
-		var width       = settings.width       ? settings.width       : 0.1;
+		var width       = settings.width       ? settings.width       : 0.05;
 		var color       = settings.color       ? settings.color       : '#000';
 		var drawingTime = settings.drawingTime ? settings.drawingTime : 150;
 		var pendulum    = settings.pendulum    ? settings.pendulum : [
@@ -83,11 +122,32 @@ function Harmonograph( settings ) {
 		];
 
 		// Set global variables
-		var element       = settings.element;     // The html5 canvas element
-		var time          = 0;                    // Time used in the calculation of XY coordinate
-		var startTime     = new Date().getTime(); // The total time for drawing
-		var drawFrame     = 0.001;                // How often an XY coordinate is drawn
-		var timeIncrement = speed * drawFrame;    // The speed the XY coordinates are drawn
+		var element       = settings.element; // The html5 canvas element
+		var timeIncrement = speed * 0.001;    // The time increment for the algorithm
+		var time          = 0;
+		var i             = 0;
+		var harmonograph  = [];
+
+		// For each frame calculate it's location
+		while( i < drawingTime * 60 ) {
+			i++;
+
+			// Calculate the pendulum movement
+			var movement = pendulum.map( function( p ) {
+				return p.amplitude * Math.sin( p.frequency * time + p.phase ) * Math.exp( -p.damping * time );
+			})
+
+			// Apply the movement to x and y coordinates
+			var x = movement[ 0 ] + movement[ 1 ];
+			var y = movement[ 2 ] + movement[ 3 ];
+
+			harmonograph.push({
+				x: x + element.width / 2,
+				y: y + element.height / 2,
+			});
+
+			time += timeIncrement;
+		}
 
 		// Prepare the canvas for drawing
 		var context = element.getContext( '2d' );
@@ -99,35 +159,10 @@ function Harmonograph( settings ) {
 		context.beginPath();
 		context.stroke();
 
-		// Draw a new x and y value based off the speed
-		var drawHarmonograph = setInterval( function() {
-
-			// Line settings for stroke
-			context.imageSmoothingEnabled = true;
-			context.lineWidth             = width;
-			context.strokeStyle           = color;
-
-			// Calculate the pendulum movement
-			var movement = pendulum.map( function( p ) {
-				return p.amplitude * Math.sin( p.frequency * time + p.phase ) * Math.exp( -p.damping * time );
-			})
-
-			// Apply the movement to x and y coordinates
-			var x = movement[ 0 ] + movement[ 1 ];
-			var y = movement[ 2 ] + movement[ 3 ];
-
-			// Draw a connected line at the next x and y point
-			context.lineTo( x + element.width / 2, y + element.height / 2 );
-			context.stroke();
-
-			// Increase the time and total drawing time
-			time += timeIncrement;
-
-			// Check if we should stop drawing the harmonograph
-			if( new Date().getTime() - startTime >= drawingTime * 1000 ) {
-				clearInterval( drawHarmonograph );
-			}
-		}, drawFrame );
+		// Start drawing on the next frame
+		requestAnimationFrame( function() {
+			return DrawHarmonograph( context, harmonograph, width, color );
+		});
 	}
 
 	// Harmonograph uses context and is not supported in some browsers

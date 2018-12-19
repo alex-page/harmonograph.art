@@ -1,6 +1,6 @@
 {
 	"name": "harmonograph",
-	"version": "0.2.1",
+	"version": "1.0.0",
 	"description": "Draw beautiful geometric shapes in the browser",
 	"scripts": {
 		"build": "uglifyjs harmonograph.js --compress --mangle --output ./harmonograph.min.js",
@@ -35,10 +35,8 @@
 	"bugs": {
 		"url": "https://github.com/alex-page/harmonograph/issues"
 	},
-	"dependencies": {
-		"uglify-js": "^3.4.9"
-	},
 	"devDependencies": {
+		"uglify-js": "^3.4.9",
 		"onchange": "^5.1.0"
 	}
 }

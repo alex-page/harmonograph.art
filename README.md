@@ -143,11 +143,7 @@ To contribute to the harmonograph project:
 
 ## Release History
 
-* v0.2.1  - Update dependencies
-* v0.2.0  - Use requestAnimationFrame so there is no jank
-* v0.1.2  - Removing unused packages
-* v0.1.1  - Removing example site
-* v0.1.0  - 💥 Initial version
+* v1.0.0  - 💥 Initial version
 
 
 **[⬆ back to top](#contents)**

@@ -32,11 +32,10 @@ npm install harmonograph
 <html lang="en">
 <head></head>
 <body>
-  <canvas id="harmonograph" width="800" height="800">
-    This only works with modern browsers that <a href="https://caniuse.com/#feat=canvas"></a>support the `canvas`</a> element.
-  </canvas>
   <script src="node_modules/harmonograph/harmonograph.min.js" ></script>
-  <script>Harmonograph({ element: document.getElementById( "harmonograph" ) });</script>
+  <script>
+    document.body.innerHTML = Harmonograph();
+  </script>
 </body>
 </html>
 ```
@@ -52,24 +51,7 @@ npm install harmonograph
 You can change the settings by adding values to the Harmonograph function. For example:
 
 ```js
-Harmonograph({
-  element: document.getElementById( "harmonograph" ),
-  color: '#fff',
-  speed: 20,
-  drawingTime: 300,
-  pendulum: [{
-    amplitude: 200, frequency: 2.985, phase: 2.054, damping: 0.001
-  },
-  {
-    amplitude: 200, frequency: 3.006, phase: 1.820, damping: 0.008
-  },
-  {
-    amplitude: 200, frequency: 3.003, phase: 2.283, damping: 0.001
-  },
-  {
-    amplitude: 200, frequency: 1.994, phase: 1.155, damping: 0.001
-  }]
-});
+
 ```
 
 

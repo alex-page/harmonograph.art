@@ -143,6 +143,7 @@ To contribute to the harmonograph project:
 
 ## Release History
 
+* v2.0.0  - Draw an SVG with bezier curves 
 * v1.0.0  - 💥 Initial version
 
 

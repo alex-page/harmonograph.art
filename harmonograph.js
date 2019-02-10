@@ -4,13 +4,9 @@
  *
  * RandomNumber     - Get a random number inside a maximum and minimum value
  * RandomPendulum   - Create a randomised pendulum swing
- * DrawHarmonograph - Draw each of the points on a frame
- * Harmonograph     - Create the canvas, harmonograph points and start draw
+ * Harmonograph     - Create the svg, harmonograph points and start draw
  *
  **************************************************************************************************************************************************************/
-
-
-// 'use strict';
 
 
 /**
@@ -25,10 +21,12 @@
 function RandomNumber( max, min, round ) {
 	min   = min   ? min   : 0;
 	round = round ? round : false;
+
 	if ( round ){
 		return Math.floor( Math.random() * ( max - min ) + min );
 	}
-  return Math.random() * ( max - min ) + min ;
+
+	return Math.random() * ( max - min ) + min ;
 }
 
 
@@ -53,121 +51,133 @@ function RandomPendulum() {
 }
 
 
-/**
- * DrawHarmonograph - Draw each of the points on a frame
- *
- * @param {object} context      - The HTML5 canvas to draw onto
- * @param {array}  harmonograph - The points of the harmonograph
- * @param {number} width        - The width of the line
- * @param {string} color        - The color of the harmonograph
- * @param {number} totalFrames  - The total frames
- */
-function DrawHarmonograph( context, harmonograph, width, color, totalFrames ){
-	var totalFrames = totalFrames ? totalFrames : 0;
+function round( x ) {
+	return Math.round(x * 1000) / 1000;
+}
 
-	// Check if we should stop drawing the harmonograph
-	if( harmonograph[ totalFrames ] === undefined ) {
-		cancelAnimationFrame( DrawHarmonograph );
-		return;
+
+
+function PathToBezier( harmonograph ){
+	var bezierHarmonograph = {
+		x: [],
+		y: [],
+		controlPointX: [],
+		controlPointY: [],
+	};
+
+	var factor = 0.5 * step / 3;
+	var totalPoints = harmonograph.x.length;
+	var step = 50;
+
+	// Reduce the points by steps of 50 and create controlPoints
+	for ( var i = 0; i < totalPoints; i += step ) {
+		bezierHarmonograph.x.push( round( harmonograph.x[ i ] ) );
+		bezierHarmonograph.y.push( round( harmonograph.y[ i ] ) );
+
+		var prev = i < 0 ? 0 : i - 1;
+		var next = i > totalPoints ? totalPoints - 1 : i + 1;
+
+		bezierHarmonograph.controlPointX.push(
+			factor * ( harmonograph.x[ next ] - harmonograph.x[ prev ] )
+		);
+		bezierHarmonograph.controlPointY.push(
+			factor * ( harmonograph.y[ next ] - harmonograph.y[ prev ] )
+		);
+	}
+}
+
+
+function PathToBezier( harmonographPath ) {
+
+	var bezierHarmonograph = PathToBezier( harmonographPath );
+
+	var data = 'M ';
+	data += bezierHarmonograph.x[0] + ' ' + bezierHarmonograph.y[0];
+	data += 'C ';
+	data += round(bezierHarmonograph.x[ 0 ] + bezierHarmonograph.controlPointX[ 0 ]);
+	data += ' ';
+	data += round(bezierHarmonograph.y[ 0 ] + bezierHarmonograph.controlPointY[ 0 ]);
+	data += ', ';
+	data += round(bezierHarmonograph.x[ 1 ] - bezierHarmonograph.controlPointX[ 1 ]);
+	data += ' ';
+	data += round(bezierHarmonograph.y[ 1 ] - bezierHarmonograph.controlPointY[ 1 ]);
+	data += ', ';
+	data += bezierHarmonograph.x[ 1 ], bezierHarmonograph.y[ 1 ];
+
+	var totalCurvedPoints = bezierHarmonograph.x.length;
+	if (totalCurvedPoints > 2) {
+		data += 'S ';
+		for ( var i = 2; i < totalCurvedPoints; i++ ) {
+			data += round( bezierHarmonograph.x[ i ] - bezierHarmonograph.controlPointX[ i ] );
+			data += round( bezierHarmonograph.y[ i ] - bezierHarmonograph.controlPointY[ i ]);
+			data += ', ';
+			data += round( bezierHarmonograph.x[ i ] );
+			data += round( bezierHarmonograph.y[ i ] );
+		}
 	}
 
-	// Line settings for stroke
-	context.lineWidth             = width;
-	context.strokeStyle           = color;
+	return data;
 
-	// Draw a connected line at the next x and y point
-	var xc = ( harmonograph[ totalFrames ].x + harmonograph[ totalFrames + 1 ].x ) / 2;
-	var yc = ( harmonograph[ totalFrames ].y + harmonograph[ totalFrames + 1].y ) / 2;
-	context.quadraticCurveTo( harmonograph[ totalFrames ].x, harmonograph[ totalFrames ].y, xc, yc );
-	context.stroke();
-
-	totalFrames += 1;
-
-	// Draw the next point on the next frame
-	requestAnimationFrame( function() {
-		return DrawHarmonograph( context, harmonograph, width, color, totalFrames );
-	});
+	console.log( data );
 }
 
 
 /**
- * Harmonograph - Draw a harmonograph to html5 canvas
+ * Harmonograph - Draw the harmonograph to svg
  *
  * Resources:
  * - https://en.wikipedia.org/wiki/Harmonograph
  * - https://aschinchon.wordpress.com/2014/10/13/beautiful-curves-the-harmonograph/
  *
- * @param  {object}  settings.element     - The canvas element to have the harmonograph drawn inside
- * @param  {number}  settings.speed       - The speed of the drawing
- * @param  {number}  settings.width       - The width of the line
- * @param  {number}  settings.color       - The color of the harmonograph
- * @param  {number}  settings.drawingTime - How long until drawing should stop
+ * @param  {number}  settings.size        - The size of the svg
+ * @param  {number}  settings.strokeWidth - The width of the line
+ * @param  {number}  settings.strokeColor - The color of the harmonograph
+ * @param  {number}  settings.drawingTime - How long the pendulum swings
  * @param  {array}   settings.pendulum    - The pendulum settings, see RandomPendulum
  */
 function Harmonograph( settings ) {
+	// If the values don't exist set a default value
+	var size         = settings.size ? settings.size : 700;
+	var strokeWidth  = settings.strokewidth ? settings.strokewidth : 1;
+	var strokeColor  = settings.strokeColor ? settings.strokeColor : '#000';
+	var drawingTime  = settings.drawingTime ? settings.drawingTime : 150;
+	var pendulum     = settings.pendulum    ? settings.pendulum : [
+		RandomPendulum(),
+		RandomPendulum(),
+		RandomPendulum(),
+		RandomPendulum(),
+	];
 
-	// Check if it's possible to draw the harmonograph
-	if( settings.element.getContext ) {
+	// For each frame calculate it's location
+	var i = 0;
+	var time = 0;
+	var timeIncrement = 0.01;
+	var harmonograph  = { x: [], y: [] };
 
-		// If the values don't exist set a default value
-		var speed       = settings.speed       ? settings.speed       : 10;
-		var width       = settings.width       ? settings.width       : 0.05;
-		var color       = settings.color       ? settings.color       : '#000';
-		var drawingTime = settings.drawingTime ? settings.drawingTime : 150;
-		var pendulum    = settings.pendulum    ? settings.pendulum : [
-			RandomPendulum(),
-			RandomPendulum(),
-			RandomPendulum(),
-			RandomPendulum(),
-		];
+	while( i < drawingTime * 60 ) {
+		i++;
 
-		// Set global variables
-		var element       = settings.element; // The html5 canvas element
-		var timeIncrement = speed * 0.001;    // The time increment for the algorithm
-		var time          = 0;
-		var i             = 0;
-		var harmonograph  = [];
-
-		// For each frame calculate it's location
-		while( i < drawingTime * 60 ) {
-			i++;
-
-			// Calculate the pendulum movement
-			var movement = pendulum.map( function( p ) {
-				return p.amplitude * Math.sin( p.frequency * time + p.phase ) * Math.exp( -p.damping * time );
-			})
-
-			// Apply the movement to x and y coordinates
-			var x = movement[ 0 ] + movement[ 1 ];
-			var y = movement[ 2 ] + movement[ 3 ];
-
-			harmonograph.push({
-				x: x + element.width / 2,
-				y: y + element.height / 2,
-			});
-
-			time += timeIncrement;
-		}
-
-		// Prepare the canvas for drawing
-		var context = element.getContext( '2d' );
-		context.clearRect( 0, 0, element.width, element.height );
-		context.save();
-
-		// Start the context
-		context.restore();
-		context.beginPath();
-		context.stroke();
-
-		// Start drawing on the next frame
-		requestAnimationFrame( function() {
-			return DrawHarmonograph( context, harmonograph, width, color );
+		// Calculate the pendulum movement
+		var movement = pendulum.map( function( p ) {
+			return p.amplitude * Math.sin( p.frequency * time + p.phase ) * Math.exp( -p.damping * time );
 		});
+
+		// Apply the movement to x and y coordinates
+		var x = movement[ 0 ] + movement[ 1 ];
+		var y = movement[ 2 ] + movement[ 3 ];
+
+		harmonograph.x.push( x + size / 2 );
+		harmonograph.y.push( y + size / 2 );
+
+		time += timeIncrement;
 	}
 
-	// Harmonograph uses context and is not supported in some browsers
-	else {
-		element.innerHtml( 'Harmonograph not supported in this browser.' );
-		console.error( 'Harmonograph not supported in this browser.' );
-	}
+	var harmonographBezier = PathToBezier( harmonograph );
+	var harmonographPath = GenerateBezierSVG( harmonographBezier );
+
+
+	var svg = `<svg xmlns="http://www.w3.org/2000/svg" width="${ size }" height="${ size }" viewbox="0 0 ${ size } ${ size }"><path stroke="${ strokeColor }" stroke-width="${ strokeWidth }" fill="none" d="${ harmonographPath }"></path></svg>`;
+	console.log( svg );
+
+	return svg;
 }

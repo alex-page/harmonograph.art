@@ -3,6 +3,7 @@
  * index.js - Draw beautiful randomised lissajous curves in the browser
  *
  * RandomNumber     - Get a random number inside a maximum and minimum value
+ * Round            - Rounds a number to three decimal places
  * RandomPendulum   - Create a randomised pendulum swing
  * Harmonograph     - Create the svg, harmonograph points and start draw
  *
@@ -31,6 +32,50 @@ function RandomNumber( max, min, round ) {
 
 
 /**
+ * Round - Rounds a number to three decimal places
+ *
+ * @param   {number} numberToRound - The number to round
+ * 
+ * @returns {number}               - The rounded number
+ */
+function Round( numberToRound ) {
+	return Math.round( numberToRound * 1000 ) / 1000;
+}
+
+
+/**
+ * GetViewbox - Renders the svg and gets the viewbox dimensions
+ *
+ * @param   {node} svg - The SVG element to be sent back to the user
+ * 
+ * @returns {string}   - The viewbox numbers
+ */
+function GetViewbox( svg ){
+	// Hide the svg from the user
+	svg.style.position = 'absolute';
+	svg.style.width = '1px';
+	svg.style.height = '1px';
+	svg.style.padding = '0';
+	svg.style.margin = '-1px';
+	svg.style.overflow = 'hidden';
+	svg.style.clip = 'rect(0,0,0,0)';
+	svg.style.border = '0';
+
+	// Add the hidden SVG
+	document.body.appendChild( svg );
+
+	// Get the bounding box
+	var bbox = svg.getBBox();
+	
+	// Now we have the bounding we can remove the element
+	svg.removeAttribute( 'style' );
+	svg.remove();
+
+	return bbox.x + ' ' + bbox.y + ' ' + bbox.width + ' ' + bbox.height;
+}
+
+
+/**
  * RandomPendulum - Create a randomised pendulum swing
  *
  * Resources:
@@ -51,109 +96,91 @@ function RandomPendulum() {
 }
 
 
-function round( x ) {
-	return Math.round(x * 1000) / 1000;
-}
-
-
-
-function PathToBezier( harmonograph ){
-	var bezierHarmonograph = {
+/**
+ * HarmonographBezierPath - Reduce number of XY points by creating bezier curves
+ *
+ * @param   {object} xyPoints - The X and Y points of the Harmonograph
+ * 
+ * @returns {string}          - The SVG path data as a string
+ */
+function HarmonographBezierPath( xyPoints ){
+	var harmonograph = {
 		x: [],
 		y: [],
-		controlPointX: [],
-		controlPointY: [],
+		cpX: [], // Control point X`
+		cpY: [], // Control point Y
 	};
 
+	var step   = 50;
 	var factor = 0.5 * step / 3;
-	var totalPoints = harmonograph.x.length;
-	var step = 50;
+	var totalPoints = xyPoints.x.length;
 
 	// Reduce the points by steps of 50 and create controlPoints
 	for ( var i = 0; i < totalPoints; i += step ) {
-		bezierHarmonograph.x.push( round( harmonograph.x[ i ] ) );
-		bezierHarmonograph.y.push( round( harmonograph.y[ i ] ) );
+		harmonograph.x.push( Round( xyPoints.x[ i ] ) );
+		harmonograph.y.push( Round( xyPoints.y[ i ] ) );
 
-		var prev = i < 0 ? 0 : i - 1;
-		var next = i > totalPoints ? totalPoints - 1 : i + 1;
+		// Get the control points for the stepped values
+		var prev = i <= 0 ? 0 : i - 1;
+		var next = i >= totalPoints ? totalPoints - 1 : i + 1;
 
-		bezierHarmonograph.controlPointX.push(
-			factor * ( harmonograph.x[ next ] - harmonograph.x[ prev ] )
-		);
-		bezierHarmonograph.controlPointY.push(
-			factor * ( harmonograph.y[ next ] - harmonograph.y[ prev ] )
-		);
+		var controlPointX = factor * ( xyPoints.x[ next ] - xyPoints.x[ prev ] );
+		var controlPointY = factor * ( xyPoints.y[ next ] - xyPoints.y[ prev ] );
+
+		harmonograph.cpX.push( controlPointX );
+		harmonograph.cpY.push( controlPointY );
 	}
-}
 
+	// Create the SVG data path
+	var svg = [
+		'M',
+		harmonograph.x[ 0 ],
+		harmonograph.y[ 0 ],
+		'C',
+		Round( harmonograph.x[ 0 ] + harmonograph.cpX[ 0 ] ),
+		Round( harmonograph.y[ 0 ] + harmonograph.cpY[ 0 ] ) + ',',
+		Round( harmonograph.x[ 1 ] - harmonograph.cpX[ 1 ] ),
+		Round( harmonograph.y[ 1 ] - harmonograph.cpY[ 1 ] ) + ',',
+		harmonograph.x[ 1 ], harmonograph.y[ 1 ],
+	];
 
-function PathToBezier( harmonographPath ) {
+	// Create the curves
+	var totalCurvedPoints = harmonograph.x.length;
+	if( totalCurvedPoints > 2 ) {
+		svg.push ( 'S' );
 
-	var bezierHarmonograph = PathToBezier( harmonographPath );
-
-	var data = 'M ';
-	data += bezierHarmonograph.x[0] + ' ' + bezierHarmonograph.y[0];
-	data += 'C ';
-	data += round(bezierHarmonograph.x[ 0 ] + bezierHarmonograph.controlPointX[ 0 ]);
-	data += ' ';
-	data += round(bezierHarmonograph.y[ 0 ] + bezierHarmonograph.controlPointY[ 0 ]);
-	data += ', ';
-	data += round(bezierHarmonograph.x[ 1 ] - bezierHarmonograph.controlPointX[ 1 ]);
-	data += ' ';
-	data += round(bezierHarmonograph.y[ 1 ] - bezierHarmonograph.controlPointY[ 1 ]);
-	data += ', ';
-	data += bezierHarmonograph.x[ 1 ], bezierHarmonograph.y[ 1 ];
-
-	var totalCurvedPoints = bezierHarmonograph.x.length;
-	if (totalCurvedPoints > 2) {
-		data += 'S ';
 		for ( var i = 2; i < totalCurvedPoints; i++ ) {
-			data += round( bezierHarmonograph.x[ i ] - bezierHarmonograph.controlPointX[ i ] );
-			data += round( bezierHarmonograph.y[ i ] - bezierHarmonograph.controlPointY[ i ]);
-			data += ', ';
-			data += round( bezierHarmonograph.x[ i ] );
-			data += round( bezierHarmonograph.y[ i ] );
+			svg.push( Round( harmonograph.x[ i ] - harmonograph.cpX[ i ] ) );
+			svg.push( Round( harmonograph.y[ i ] - harmonograph.cpY[ i ] ) + ',' );
+			svg.push( Round( harmonograph.x[ i ] ) );
+			svg.push( Round( harmonograph.y[ i ] ) );
 		}
 	}
 
-	return data;
+	// Turn the Array into the SVG string
+	var svgData = svg.join( ' ' );
 
-	console.log( data );
+	// Send back the svg data
+	return svgData;
 }
 
 
 /**
- * Harmonograph - Draw the harmonograph to svg
+ * GenerateHarmonograph - Draw all the XY points on the harmonograph
  *
- * Resources:
- * - https://en.wikipedia.org/wiki/Harmonograph
- * - https://aschinchon.wordpress.com/2014/10/13/beautiful-curves-the-harmonograph/
+ * @param {number} drawingTime - Total time the pendulums swing
+ * @param {number} size        - The pendulum settings, see RandomPendulum
+ * @param {object} pendulum    - The pendulum settings, see RandomPendulum
  *
- * @param  {number}  settings.size        - The size of the svg
- * @param  {number}  settings.strokeWidth - The width of the line
- * @param  {number}  settings.strokeColor - The color of the harmonograph
- * @param  {number}  settings.drawingTime - How long the pendulum swings
- * @param  {array}   settings.pendulum    - The pendulum settings, see RandomPendulum
+ * @returns {object}           - The x and y points
  */
-function Harmonograph( settings ) {
-	// If the values don't exist set a default value
-	var size         = settings.size ? settings.size : 700;
-	var strokeWidth  = settings.strokewidth ? settings.strokewidth : 1;
-	var strokeColor  = settings.strokeColor ? settings.strokeColor : '#000';
-	var drawingTime  = settings.drawingTime ? settings.drawingTime : 150;
-	var pendulum     = settings.pendulum    ? settings.pendulum : [
-		RandomPendulum(),
-		RandomPendulum(),
-		RandomPendulum(),
-		RandomPendulum(),
-	];
-
-	// For each frame calculate it's location
-	var i = 0;
-	var time = 0;
+function GenerateHarmonograph( drawingTime, size, pendulum ) {
+	var i             = 0;
+	var time          = 0;
 	var timeIncrement = 0.01;
 	var harmonograph  = { x: [], y: [] };
 
+	// Iterate and draw the harmonograph
 	while( i < drawingTime * 60 ) {
 		i++;
 
@@ -172,12 +199,65 @@ function Harmonograph( settings ) {
 		time += timeIncrement;
 	}
 
-	var harmonographBezier = PathToBezier( harmonograph );
-	var harmonographPath = GenerateBezierSVG( harmonographBezier );
+	return harmonograph;
+}
 
 
-	var svg = `<svg xmlns="http://www.w3.org/2000/svg" width="${ size }" height="${ size }" viewbox="0 0 ${ size } ${ size }"><path stroke="${ strokeColor }" stroke-width="${ strokeWidth }" fill="none" d="${ harmonographPath }"></path></svg>`;
-	console.log( svg );
+/**
+ * Harmonograph - Draw the harmonograph to svg
+ *
+ * Resources:
+ * - https://en.wikipedia.org/wiki/Harmonograph
+ * - https://aschinchon.wordpress.com/2014/10/13/beautiful-curves-the-harmonograph/
+ *
+ * @param  {number}  userSettings.size         - The size of the svg
+ * @param  {number}  userSettings.strokeWidth  - The width of the line
+ * @param  {number}  userSettings.strokeColor  - The color of the harmonograph
+ * @param  {number}  userSettings.pendulumTime - How long the pendulum swings
+ * @param  {array}   userSettings.pendulum     - The pendulum settings, see RandomPendulum
+ * 
+ * @returns {node}                             - The SVG node
+ */
+function Harmonograph( userSettings ) {
 
+	// Create settings from user input or defaults
+	var settings     = userSettings          ? userSettings          : {};
+	var size         = settings.size         ? settings.size         : 700;
+	var strokeWidth  = settings.strokewidth  ? settings.strokewidth  : 1;
+	var strokeColor  = settings.strokeColor  ? settings.strokeColor  : '#000';
+	var pendulumTime = settings.pendulumTime ? settings.pendulumTime : 150;
+	var pendulum     = settings.pendulum     ? settings.pendulum     : [
+		RandomPendulum(),
+		RandomPendulum(),
+		RandomPendulum(),
+		RandomPendulum(),
+	];
+
+	// Create all of the XY points on the Harmonograph
+	var harmonographPoints = GenerateHarmonograph( pendulumTime, size, pendulum );
+
+	// Reduce the number of XY points by using bezier curves
+	var harmonographPath = HarmonographBezierPath( harmonographPoints );
+
+	// Create the svg element
+	var svg = document.createElementNS( 'http://www.w3.org/2000/svg', 'svg' );
+
+	// Apply the attributes
+	svg.setAttribute( 'xlms', 'http://www.w3.org/2000/svg' );
+
+	// Create the path
+	var svgPath = document.createElementNS( 'http://www.w3.org/2000/svg', 'path' );
+	svgPath.setAttribute( 'd', harmonographPath );
+	svgPath.setAttribute( 'stroke', strokeColor );
+	svgPath.setAttribute( 'stroke-width', strokeWidth );
+	svgPath.setAttribute( 'fill', 'none' );
+
+	// Put the path in the SVG
+	svg.appendChild( svgPath );
+
+	// Get the viewbox of the SVG
+	svg.setAttribute( 'viewBox', GetViewbox( svg ) );
+
+	// Send the svg element
 	return svg;
 }

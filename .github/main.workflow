@@ -1,6 +1,6 @@
 workflow "Build and deploy" {
   on = "push"
-  resolves = ["Publish"]
+  resolves = ["Build and publish"]
 }
 
 action "On push to master" {
@@ -14,15 +14,20 @@ action "Install dependencies" {
   args = "install"
 }
 
-action "Build javascript" {
-  uses = "actions/npm@59b64a598378f31e49cb76f27d6f3312b582f680"
-  needs = ["Install dependencies"]
-  args = "build"
+action "Master branch only" {
+  uses = "actions/bin/filter@master"
+  args = "branch master"
 }
 
-action "Publish" {
+action "Install" {
+  uses = "actions/npm@master"
+  needs = ["Master branch only"]
+  args = "install"
+}
+
+action "Build and publish" {
   uses = "actions/npm@59b64a598378f31e49cb76f27d6f3312b582f680"
-  needs = ["Build javascript"]
-  args = "publish --access public"
+  args = "publish"
   secrets = ["NPM_AUTH_TOKEN"]
+  needs = ["Install"]
 }

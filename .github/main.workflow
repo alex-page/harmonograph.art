@@ -1,6 +1,6 @@
 workflow "Publish to NPM" {
   on = "push"
-  resolves = ["Build and publish"]
+  resolves = ["Publish"]
 }
 
 action "Master branch only" {
@@ -16,11 +16,11 @@ action "Install dependencies" {
 
 action "Build harmonograph.min.js" {
   uses = "actions/npm@master"
-  args = "build"
+  args = "run build"
   needs = ["Install dependencies"]
 }
 
-action "Build and publish" {
+action "Publish" {
   uses = "actions/npm@master"
   args = "publish --access public --dry-run"
   secrets = ["NPM_AUTH_TOKEN"]

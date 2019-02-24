@@ -10,13 +10,19 @@ action "Master branch only" {
 
 action "Install dependencies" {
   uses = "actions/npm@master"
-  needs = ["Master branch only"]
   args = "install"
+  needs = ["Master branch only"]
+}
+
+action "Build harmonograph.min.js" {
+  uses = "actions/npm@master"
+  args = "build"
+  needs = ["Install dependencies"]
 }
 
 action "Build and publish" {
-  uses = "actions/npm@59b64a598378f31e49cb76f27d6f3312b582f680"
+  uses = "actions/npm@master"
   args = "publish --access public --dry-run"
   secrets = ["NPM_AUTH_TOKEN"]
-  needs = ["Install dependencies"]
+  needs = ["Build harmonograph.min.js"]
 }

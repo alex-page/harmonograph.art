@@ -3,7 +3,7 @@
 	"version": "2.0.4",
 	"description": "Draw beautiful geometric shapes in the browser",
 	"scripts": {
-		"prepare": "npm run build --unsafe-perm",
+		"prepare": "npm run build",
 		"build": "uglifyjs harmonograph.js --compress --mangle --output ./harmonograph.min.js",
 		"watch:js": "onchange \"harmonograph.js\" -- npm run build",
 		"watch": "npm run build && npm run watch:js"

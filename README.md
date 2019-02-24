@@ -32,30 +32,30 @@ npm install harmonograph
 <html lang="en">
 <head></head>
 <body>
-	<script src="node_modules/harmonograph/harmonograph.min.js" ></script>
-	<script>
-		// Create a randomised Harmonograph
-		var harmonograph = Harmonograph();
-		document.body.appendChild( harmonograph );
-		
-		/*
-		 * Optional animation of the Harmonograph ⬇️
-		 */
+  <script src="node_modules/harmonograph/harmonograph.min.js" ></script>
+  <script>
+    // Create a randomised Harmonograph
+    var harmonograph = Harmonograph();
+    document.body.appendChild( harmonograph );
+    
+    /*
+      * Optional animation of the Harmonograph ⬇️
+      */
 
-		// The Path element
-		var svgPath = harmonograph.querySelector( 'path' );
+    // The Path element
+    var svgPath = harmonograph.querySelector( 'path' );
 
-		// Set up the path for animation
-		var length = svgPath.getTotalLength();
-		svgPath.style.strokeDasharray = length + ' ' + length;
-		svgPath.style.strokeDashoffset = length;
-		svgPath.style.transition = 'none';
+    // Set up the path for animation
+    var length = svgPath.getTotalLength();
+    svgPath.style.strokeDasharray = length + ' ' + length;
+    svgPath.style.strokeDashoffset = length;
+    svgPath.style.transition = 'none';
 
-		// Animate the path
-		svgPath.getBoundingClientRect();
-		svgPath.style.transition = 'stroke-dashoffset 30s linear';
-		svgPath.style.strokeDashoffset = '0';
-	</script>
+    // Animate the path
+    svgPath.getBoundingClientRect();
+    svgPath.style.transition = 'stroke-dashoffset 30s linear';
+    svgPath.style.strokeDashoffset = '0';
+  </script>
 </body>
 </html>
 

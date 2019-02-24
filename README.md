@@ -160,6 +160,7 @@ To contribute to the harmonograph project:
 
 ## Release History
 
+* v2.0.4  - Include `harmonograph.min.js` in npm publish
 * v2.0.3  - Adding `--access public` for GitHub actions publish
 * v2.0.2  - Use prepare instead of prepublish
 * v2.0.1  - Add back minified files to published npm package

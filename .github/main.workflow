@@ -1,6 +1,6 @@
-workflow "Build and publish" {
+workflow "Publish to NPM" {
   on = "push"
-  resolves = ["Publish"]
+  resolves = ["Build and publish"]
 }
 
 action "Master branch only" {

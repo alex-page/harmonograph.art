@@ -38,8 +38,7 @@ npm install harmonograph
     var harmonograph = Harmonograph();
     document.body.appendChild( harmonograph );
     
-    /* Optional animation of the Harmonograph ⬇️ */
-
+    // Optional animation of the Harmonograph ⬇️
     // The Path element
     var svgPath = harmonograph.querySelector( 'path' );
 

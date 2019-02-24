@@ -22,7 +22,7 @@ action "Build harmonograph.min.js" {
 
 action "Publish" {
   uses = "actions/npm@master"
-  args = "publish --access public --dry-run"
+  args = "publish --access public"
   secrets = ["NPM_AUTH_TOKEN"]
   needs = ["Build harmonograph.min.js"]
 }

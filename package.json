@@ -5,8 +5,7 @@
 	"scripts": {
 		"build": "uglifyjs harmonograph.js --compress --mangle --output ./harmonograph.min.js",
 		"watch:js": "onchange \"harmonograph.js\" -- npm run build",
-		"watch": "npm run build && npm run watch:js",
-		"prepublishOnly": "npm run build"
+		"watch": "npm run build && npm run watch:js"
 	},
 	"repository": {
 		"type": "git",

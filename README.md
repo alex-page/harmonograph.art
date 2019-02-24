@@ -32,12 +32,33 @@ npm install harmonograph
 <html lang="en">
 <head></head>
 <body>
-  <script src="node_modules/harmonograph/harmonograph.min.js" ></script>
-  <script>
-    document.body.innerHTML = Harmonograph();
-  </script>
+	<script src="node_modules/harmonograph/harmonograph.min.js" ></script>
+	<script>
+		// Create a randomised Harmonograph
+		var harmonograph = Harmonograph();
+		document.body.appendChild( harmonograph );
+		
+		/* 
+		 * Optional animation of the Harmonograph ⬇️
+		 */
+
+		// The Path element
+		var svgPath = harmonograph.querySelector( 'path' );
+
+		// Set up the path for animation
+		var length = svgPath.getTotalLength();
+		svgPath.style.strokeDasharray = length + ' ' + length;
+		svgPath.style.strokeDashoffset = length;
+		svgPath.style.transition = 'none';
+
+		// Animate the path
+		svgPath.getBoundingClientRect();
+		svgPath.style.transition = 'stroke-dashoffset 30s linear';
+		svgPath.style.strokeDashoffset = '0';
+	</script>
 </body>
 </html>
+
 ```
 
 **[⬆ back to top](#contents)**
@@ -51,35 +72,52 @@ npm install harmonograph
 You can change the settings by adding values to the Harmonograph function. For example:
 
 ```js
-
+Harmonograph({
+  size: 700,
+  strokeWidth: 1,
+  strokeColor: '#000',
+  pendulumTime: 150,
+  pendulum: [{
+    amplitude: 200, frequency: 2.985, phase: 2.054, damping: 0.001
+  },
+  {
+    amplitude: 200, frequency: 3.006, phase: 1.820, damping: 0.008
+  },
+  {
+    amplitude: 200, frequency: 3.003, phase: 2.283, damping: 0.001
+  },
+  {
+    amplitude: 200, frequency: 1.994, phase: 1.155, damping: 0.001
+  }]
+});
 ```
 
-
-### `element`
-_(object)_
-
-The html5 canvas element for the harmograph to be drawn inside.
-
-
-### `speed`
+### `size`
 _(number)_
-default: `10`
+default: `700`
 
-The speed at which the harmonograph is drawn adds new x and y coordinates.
+The size of the svg
 
 
-### `color`
+### `strokeWidth`
+_(number)_
+default: `1`
+
+The width of the line
+
+
+### `strokeColor`
 _(string)_
 default: `#000`
 
 The color of the harmonograph lines
 
 
-### `drawingTime`
+### `pendulumTime`
 _(number)_
-default: `200`
+default: `150`
 
-How long until drawing should stop. A drawingTime of 1 would draw for 1 second.
+How long the pendulum swings. A drawingTime of 1 the pendulums would swing for 1second.
 
 
 ### `pendulum`
@@ -125,7 +163,7 @@ To contribute to the harmonograph project:
 
 ## Release History
 
-* v2.0.0  - Draw an SVG with bezier curves 
+* v2.0.0  - Remove Canvas and draw harmonograph with SVG bezier curves
 * v1.0.0  - 💥 Initial version
 
 

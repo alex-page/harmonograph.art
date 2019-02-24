@@ -1,11 +1,34 @@
 <!DOCTYPE html>
 <html lang="en">
-<head></head>
+<head>
+  <style>
+  body {
+    padding: 50px;
+    max-width: 600px;
+    margin: 0 auto;
+  }
+  </style>
+</head>
 <body>
-  <canvas id="harmonograph" width="800" height="800">
-    This only works with modern browsers that <a href="https://caniuse.com/#feat=canvas"></a>support the `canvas`</a> element.
-  </canvas>
-  <script src="harmonograph.min.js" ></script>
-  <script>Harmonograph({ element: document.getElementById( "harmonograph" ) });</script>
+	<script src="harmonograph.min.js" ></script>
+	<script>
+		// Add it to HTML
+		var harmonograph = Harmonograph();
+		document.body.appendChild( harmonograph );
+		
+		// The path element
+		var svgPath = harmonograph.querySelector( 'path' );
+
+		// Set up the path for animation
+		var length = svgPath.getTotalLength();
+		svgPath.style.strokeDasharray = length + ' ' + length;
+		svgPath.style.strokeDashoffset = length;
+		svgPath.style.transition = 'none';
+
+		// Animate the path
+		svgPath.getBoundingClientRect();
+		svgPath.style.transition = 'stroke-dashoffset 30s linear';
+		svgPath.style.strokeDashoffset = '0';
+	</script>
 </body>
 </html>

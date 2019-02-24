@@ -160,6 +160,7 @@ To contribute to the harmonograph project:
 
 ## Release History
 
+* v2.0.1  - Adding back minified files to published npm package
 * v2.0.0  - Remove Canvas and draw harmonograph with SVG bezier curves
 * v1.0.0  - 💥 Initial version
 

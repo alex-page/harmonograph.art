@@ -1,17 +1,6 @@
-workflow "Build and deploy" {
+workflow "Build and publish" {
   on = "push"
-  resolves = ["Build and publish"]
-}
-
-action "On push to master" {
-  uses = "actions/bin/filter@master"
-  args = "branch master"
-}
-
-action "Install dependencies" {
-  uses = "actions/npm@master"
-  needs = ["On push to master"]
-  args = "install"
+  resolves = ["Publish"]
 }
 
 action "Master branch only" {
@@ -19,15 +8,21 @@ action "Master branch only" {
   args = "branch master"
 }
 
-action "Install" {
+action "Install dependencies" {
   uses = "actions/npm@master"
   needs = ["Master branch only"]
   args = "install"
 }
 
-action "Build and publish" {
+action "Build harmonograph.min.js" {
+  uses = "actions/npm@master"
+  needs = ["Install dependencies"]
+  args = "build"
+}
+
+action "Publish" {
   uses = "actions/npm@59b64a598378f31e49cb76f27d6f3312b582f680"
   args = "publish"
   secrets = ["NPM_AUTH_TOKEN"]
-  needs = ["Install"]
+  needs = ["Build harmonograph.min.js"]
 }

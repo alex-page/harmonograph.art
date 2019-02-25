@@ -1,6 +1,6 @@
 {
 	"name": "harmonograph",
-	"version": "2.0.5",
+	"version": "2.0.6",
 	"description": "Draw beautiful geometric shapes in the browser",
 	"scripts": {
 		"prepublishOnly": "npm run build",

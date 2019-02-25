@@ -223,7 +223,7 @@ function Harmonograph( userSettings ) {
 	// Create settings from user input or defaults
 	var settings     = userSettings          ? userSettings          : {};
 	var size         = settings.size         ? settings.size         : 700;
-	var strokeWidth  = settings.strokewidth  ? settings.strokewidth  : 1;
+	var strokeWidth  = settings.strokeWidth  ? settings.strokeWidth  : 1;
 	var strokeColor  = settings.strokeColor  ? settings.strokeColor  : '#000';
 	var pendulumTime = settings.pendulumTime ? settings.pendulumTime : 150;
 	var pendulum     = settings.pendulum     ? settings.pendulum     : [

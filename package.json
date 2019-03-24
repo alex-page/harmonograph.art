@@ -1,9 +1,9 @@
 {
 	"name": "harmonograph",
-	"version": "2.0.6",
+	"version": "2.0.7",
 	"description": "Draw beautiful geometric shapes in the browser",
 	"scripts": {
-		"prepublishOnly": "npm run build",
+		"prepublishOnly": "npm run build --unsafe-perm",
 		"build": "uglifyjs harmonograph.js --compress --mangle --output ./harmonograph.min.js",
 		"watch:js": "onchange \"harmonograph.js\" -- npm run build",
 		"watch": "npm run build && npm run watch:js"

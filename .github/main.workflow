@@ -16,7 +16,7 @@ action "Install dependencies" {
 
 action "Publish" {
   uses = "actions/npm@master"
-  args = "publish --access public --dry-run"
+  args = "publish --access public --dry-run --unsafe-perm"
   needs = ["Install dependencies"]
   secrets = ["NPM_AUTH_TOKEN"]
 }

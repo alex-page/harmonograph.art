@@ -160,7 +160,7 @@ To contribute to the harmonograph project:
 
 ## Release History
 
-* v2.0.7  - Add `--unsafe-perm` for `prepublishOnly`
+* v2.0.7  - Add `--unsafe-perm` for `publish` workflow
 * v2.0.6  - Fix issue with `strokeWidth` not working
 * v2.0.5  - Change script from `prepare` to `prepublishOnly`
 * v2.0.4  - Include `harmonograph.min.js` in npm publish

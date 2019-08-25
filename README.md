@@ -70,7 +70,9 @@ const harmonograph = generateHarmonograph({
 });
 ```
 
-| Parameter | Description | Default value | Type |
+### Options
+
+| Option | Description | Default value | Type |
 | --- | --- | --- | --- |
 | size | The size of the svg | `700` | _number_ |
 | strokeWidth | The width of the line | `1` | _number_ |
@@ -79,10 +81,10 @@ const harmonograph = generateHarmonograph({
 | backgroundColor | The background color of the harmonograph | `transparent` | _string_ |
 | backgroundColor | The background color of the harmonograph | `transparent` | _string_ |
 | pendulumTime | How long the pendulum swings in seconds | `150` | _number_ |
-| pendulum | Two pendulums require four items ( x, y and x, y ). Each X and Y value is an object that contains _amplitude_, _frequency_, _phase_, and _damping_ ( see table below ) | `random values` | _array_ |
+| pendulum | Two pendulums require four items ( x, y and x, y ). Each X and Y value is an object that contains _amplitude_, _frequency_, _phase_, and _damping_ ( see pendulum options below ) | `random values` | _array_ |
 
 
-### Pendulum settings
+### Pendulum options
 
 | Parameter | Description | Default value | Type |
 | --- | --- | --- | --- |

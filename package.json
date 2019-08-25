@@ -1,12 +1,9 @@
 {
 	"name": "harmonograph",
-	"version": "2.0.7",
-	"description": "Draw beautiful geometric shapes in the browser",
+	"version": "3.0.0",
+	"description": "Generate a randomised harmonograph SVG",
 	"scripts": {
-		"prepublishOnly": "npm run build",
-		"build": "uglifyjs harmonograph.js --compress --mangle --output ./harmonograph.min.js",
-		"watch:js": "onchange \"harmonograph.js\" -- npm run build",
-		"watch": "npm run build && npm run watch:js"
+		"test": "ava && xo"
 	},
 	"repository": {
 		"type": "git",
@@ -16,9 +13,15 @@
 		"harmonograph",
 		"lissajous curves",
 		"art",
-		"geometric"
+		"geometric",
+		"generated",
+		"algorithm",
+		"svg"
 	],
-	"main": "harmonograph.min.js",
+	"main": "index.js",
+	"files": [
+		"index.js"
+	],
 	"author": {
 		"name": "Alex Page",
 		"email": "alex@alexpage.com.au",
@@ -36,8 +39,11 @@
 		"url": "https://github.com/alex-page/harmonograph/issues"
 	},
 	"devDependencies": {
-		"onchange": "^5.1.0",
-		"uglify-js": "^3.4.9"
+		"ava": "^2.3.0",
+		"xo": "^0.24.0"
 	},
-	"dependencies": {}
+	"dependencies": {
+		"preact": "^10.0.0-rc.1",
+		"preact-render-to-string": "^5.0.6"
+	}
 }

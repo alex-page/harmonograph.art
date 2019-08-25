@@ -1,16 +1,6 @@
-🖼 Harmonograph
-==============
+# Harmonograph
 
-> Randomly generated geometric images
-
-
-## Contents
-
-* [Install](#install)
-* [How to use](#use)
-* [Settings](#settings)
-* [Contributing](#contributing)
-* [Release History](#release-history)
+> 🖼 Generate a randomised harmonograph SVG
 
 
 ## Install
@@ -18,12 +8,6 @@
 ```shell
 npm install harmonograph
 ```
-
-**[⬆ back to top](#contents)**
-
-
-----------------------------------------------------------------------------------------------------------------------------------------------------------------
-
 
 ## How to use
 
@@ -55,24 +39,21 @@ npm install harmonograph
   </script>
 </body>
 </html>
-
 ```
-
-**[⬆ back to top](#contents)**
-
-
-----------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 
 ## Settings
 
-You can change the settings by adding values to the Harmonograph function. For example:
+You can customise the default settings by adding values to the Harmonograph function. For example:
 
 ```js
-Harmonograph({
+const generateHarmonograph = require('harmonograph');
+
+const harmonograph = generateHarmonograph({
   size: 700,
   strokeWidth: 1,
   strokeColor: '#000',
+  backgroundColor: 'transparent',
   pendulumTime: 150,
   pendulum: [{
     amplitude: 200, frequency: 2.985, phase: 2.054, damping: 0.001
@@ -89,77 +70,31 @@ Harmonograph({
 });
 ```
 
-### `size`
-_(number)_
-default: `700`
-
-The size of the svg
-
-
-### `strokeWidth`
-_(number)_
-default: `1`
-
-The width of the line
+| Parameter | Description | Default value | Type |
+| --- | --- | --- | --- |
+| size | The size of the svg | `700` | _number_ |
+| strokeWidth | The width of the line | `1` | _number_ |
+| strokeWidth | The width of the line | `1` | _number_ |
+| strokeColor | The color of the line | `#000` | _string_ |
+| backgroundColor | The background color of the harmonograph | `transparent` | _string_ |
+| backgroundColor | The background color of the harmonograph | `transparent` | _string_ |
+| pendulumTime | How long the pendulum swings in seconds | `150` | _number_ |
+| pendulum | Two pendulums require four items ( x, y and x, y ). Each X and Y value is an object that contains _amplitude_, _frequency_, _phase_, and _damping_ ( see table below ) | `random values` | _array_ |
 
 
-### `strokeColor`
-_(string)_
-default: `#000`
+### Pendulum settings
 
-The color of the harmonograph lines
+| Parameter | Description | Default value | Type |
+| --- | --- | --- | --- |
+| pendulum.amplitude | How far a pendulum swings back and forth, must be from `0` - `360` degrees | `random number` | _number_ |
+| pendulum.frequency | How fast a pendulum swings back and forth, for best results use decimal values around `2` and `3` | `random number` | _number_ |
+| pendulum.phase | The rate that a pendulum loses its energy, or slows down, must be from `0` to `π` | `random number` | _number_ |
+| pendulum.damping | The offset from the normal starting position of a pendulum, must be from `0` to `0.01` | `random number` | _number_ |
 
-
-### `pendulumTime`
-_(number)_
-default: `150`
-
-How long the pendulum swings. A drawingTime of 1 the pendulums would swing for 1second.
-
-
-### `pendulum`
-_(array)_
-default: Two random pendulums will be created
-
-Two pendulums require four items ( x, y and x, y ) in the array. Each item contains an object in the array. Each object must use the following keys:
-
-**Amplitude:** 
-How far a pendulum swings back and forth, must be from `0` - `360` degrees
-
-**Frequency:** 
-How fast a pendulum swings back and forth, for best results use decimal values around `2` and `3`
-
-**Phase:**     
-The rate that a pendulum loses its energy, or slows down, must be from `0` to `π`
-
-**Damping:**   
-The offset from the normal starting position of a pendulum, must be from `0` to `0.01`
-
-
-**[⬆ back to top](#contents)**
-
-
-----------------------------------------------------------------------------------------------------------------------------------------------------------------
-
-
-## Contributing
-
-To contribute to the harmonograph project:
-1. Fork the project and clone it locally
-1. Create a new branch for the work that is going to be completed.
-1. Install dependencies `npm i`
-1. Make your changes to the `harmonograph.js` file.
-1. Run `npm run build`
-1. Push your work to github and create a new pull request.
-1. Respond to any code review feedback.
-
-**[⬆ back to top](#contents)**
-
-
-----------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 ## Release History
 
+* v3.0.0  - Return an SVG, add linter and tests
 * v2.0.7  - Add `--unsafe-perm` for `publish` workflow
 * v2.0.6  - Fix issue with `strokeWidth` not working
 * v2.0.5  - Change script from `prepare` to `prepublishOnly`
@@ -169,7 +104,3 @@ To contribute to the harmonograph project:
 * v2.0.1  - Add back minified files to published npm package
 * v2.0.0  - Remove Canvas and draw harmonograph with SVG bezier curves
 * v1.0.0  - 💥 Initial version
-
-
-**[⬆ back to top](#contents)**
-

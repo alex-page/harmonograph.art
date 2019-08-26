@@ -1,13 +1,13 @@
 {
 	"name": "harmonograph",
-	"version": "3.0.0",
+	"version": "4.0.0",
 	"description": "Generate a randomised harmonograph SVG",
 	"scripts": {
 		"test": "ava && xo"
 	},
 	"repository": {
 		"type": "git",
-		"url": "git+https://github.com/alex-page/harmonograph.git"
+		"url": "git+https://github.com/alex-page/harmonograph-svg.git"
 	},
 	"keywords": [
 		"harmonograph",
@@ -36,7 +36,7 @@
 	],
 	"license": "MIT",
 	"bugs": {
-		"url": "https://github.com/alex-page/harmonograph/issues"
+		"url": "https://github.com/alex-page/harmonograph-svg/issues"
 	},
 	"devDependencies": {
 		"ava": "^2.3.0",

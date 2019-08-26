@@ -198,7 +198,6 @@ const generateHarmonograph = (drawingTime, size, pendulum) => {
  * @param  {number}  userSettings.size            - The size of the svg
  * @param  {number}  userSettings.strokeWidth     - The width of the line
  * @param  {string}  userSettings.strokeColor     - The color of the harmonograph
- * @param  {string}  userSettings.backgroundColor - Any additional styles
  * @param  {number}  userSettings.pendulumTime    - How long the pendulum swings
  * @param  {array}   userSettings.pendulum        - The pendulum settings, see randomPendulum
  *
@@ -209,14 +208,12 @@ module.exports = userSettings => {
 		size,
 		strokeWidth,
 		strokeColor,
-		backgroundColor,
 		pendulumTime,
 		pendulum
 	} = {
 		size: 700,
 		strokeWidth: 1,
 		strokeColor: '#000',
-		backgroundColor: 'transparent',
 		pendulumTime: 150,
 		pendulum: [
 			randomPendulum(),
@@ -239,14 +236,11 @@ module.exports = userSettings => {
 	// // Create the svg element
 	const svg = h('svg', {
 		xmlns: 'http://www.w3.org/2000/svg',
-		viewBox: `0 0 ${size} ${size}`,
-		style: {
-			backgroundColor
-		}
+		viewBox: `0 0 ${size} ${size}`
 	},
 	h('path', {
 		stroke: strokeColor,
-		strokeWidth,
+		'stroke-width': strokeWidth,
 		fill: 'none',
 		d: harmonographPath
 	}));

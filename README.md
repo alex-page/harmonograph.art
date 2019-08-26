@@ -9,38 +9,6 @@
 npm install harmonograph
 ```
 
-## How to use
-
-```html
-<!DOCTYPE html>
-<html lang="en">
-<head></head>
-<body>
-  <script src="node_modules/harmonograph/harmonograph.min.js" ></script>
-  <script>
-    // Create a randomised Harmonograph
-    var harmonograph = Harmonograph();
-    document.body.appendChild( harmonograph );
-    
-    // Optional animation of the Harmonograph ⬇️
-    // The Path element
-    var svgPath = harmonograph.querySelector( 'path' );
-
-    // Set up the path for animation
-    var length = svgPath.getTotalLength();
-    svgPath.style.strokeDasharray = length + ' ' + length;
-    svgPath.style.strokeDashoffset = length;
-    svgPath.style.transition = 'none';
-
-    // Animate the path
-    svgPath.getBoundingClientRect();
-    svgPath.style.transition = 'stroke-dashoffset 30s linear';
-    svgPath.style.strokeDashoffset = '0';
-  </script>
-</body>
-</html>
-```
-
 
 ## Settings
 
@@ -53,7 +21,6 @@ const harmonograph = generateHarmonograph({
   size: 700,
   strokeWidth: 1,
   strokeColor: '#000',
-  backgroundColor: 'transparent',
   pendulumTime: 150,
   pendulum: [{
     amplitude: 200, frequency: 2.985, phase: 2.054, damping: 0.001
@@ -76,10 +43,7 @@ const harmonograph = generateHarmonograph({
 | --- | --- | --- | --- |
 | size | The size of the svg | `700` | _number_ |
 | strokeWidth | The width of the line | `1` | _number_ |
-| strokeWidth | The width of the line | `1` | _number_ |
 | strokeColor | The color of the line | `#000` | _string_ |
-| backgroundColor | The background color of the harmonograph | `transparent` | _string_ |
-| backgroundColor | The background color of the harmonograph | `transparent` | _string_ |
 | pendulumTime | How long the pendulum swings in seconds | `150` | _number_ |
 | pendulum | Two pendulums require four items ( x, y and x, y ). Each X and Y value is an object that contains _amplitude_, _frequency_, _phase_, and _damping_ ( see pendulum options below ) | `random values` | _array_ |
 
@@ -96,6 +60,8 @@ const harmonograph = generateHarmonograph({
 
 ## Release History
 
+* v4.0.0  - Remove background color, fix broken stroke width
+* v3.0.1  - Update repo URL and readme
 * v3.0.0  - Return an SVG, add linter and tests
 * v2.0.7  - Add `--unsafe-perm` for `publish` workflow
 * v2.0.6  - Fix issue with `strokeWidth` not working

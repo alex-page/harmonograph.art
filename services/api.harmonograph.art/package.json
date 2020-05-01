@@ -1,0 +1,24 @@
+{
+	"version": "1.0.0",
+	"name": "@harmonograph/api.harmonograph.art",
+	"private": true,
+	"description": "Paint a randomised harmonograph with a URL",
+	"main": "./index.js",
+	"scripts": {
+		"dev": "now dev",
+		"test": "xo"
+	},
+	"dependencies": {
+		"@harmonograph/svg": "^0.0.0",
+		"color": "^3.1.2"
+	},
+	"devDependencies": {
+		"now": "^18.0.0"
+	},
+	"author": {
+		"name": "Alex Page",
+		"email": "alex@alexpage.com.au",
+		"url": "http://alexpage.com.au"
+	},
+	"license": "MIT"
+}

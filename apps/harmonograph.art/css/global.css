@@ -1,0 +1,50 @@
+:root {
+	--base-font: "SFMono-Regular",Consolas,"Liberation Mono",Menlo,Courier,monospace;
+	--base-font-size: 1rem;
+
+	--subdued-color: rgba(255,255,255,0.05);
+	--background-color: #1C1C1E;
+	--text-color: #fff;
+	--frame-background-color: #050505;
+	--active-color: #ffd900;
+	--link-color: #28a745;
+	--link-muted-color: #BBDBEE;
+}
+
+html {
+	font-family: var(--base-font);
+	font-size: var(--base-font-size);
+	font-weight: 300;
+	line-height: 1.5;
+
+	background: var(--background-color);
+	color: var(--text-color);
+}
+
+body {
+	margin: 0;
+}
+
+/* Form styles */
+.color {
+	display: flex;
+	flex-wrap: wrap;
+	position: relative;
+}
+
+.color input {
+	flex: 1;
+	margin-top: 15px;
+}
+
+
+label {
+	display: block;
+	width: 100%;
+}
+
+label + * {
+	margin-top: 15px;
+}
+
+

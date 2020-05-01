@@ -1,0 +1,21 @@
+{
+  "version": 2,
+  "alias": "harmonograph.now.sh",
+  "public": true,
+  "builds": [
+    {
+      "src": "index.js",
+      "use": "@now/node"
+    }
+  ],
+  "routes": [
+    {
+      "src": "/(?<strokeColor>[^/]+)?/?(?<strokeWidth>[^/]+)?/?(?<size>[^/]+)?",
+      "dest": "/index.js?strokeColor=$strokeColor&strokeWidth=$strokeWidth&size=$size"
+    },
+    {
+      "src": "/favicon.ico",
+      "dest": "/favicon.ico"
+    }
+  ]
+}

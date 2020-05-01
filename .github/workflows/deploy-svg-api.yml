@@ -1,0 +1,19 @@
+name: Deploy @harmonograph/svg-api on merge to master
+
+on:
+  push:
+    paths:
+    - 'services/svg-api/**'
+    branches:
+    - master
+
+jobs:
+  deploy:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@master
+    - uses: actions/setup-node@master
+    - run: |
+        node console.log('deploy this plz');

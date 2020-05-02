@@ -1,34 +1,73 @@
 {
-	"name": "@harmonograph/root",
+	"name": "harmonograph.art",
+	"version": "0.0.0",
 	"private": true,
-	"version": "1.0.0",
-	"description": "",
-	"main": "index.js",
+	"description": "Draw, download and share a randomised harmonograph.",
 	"scripts": {
-		"postinstall": "manypkg check"
+		"dev": "next",
+		"build": "next build",
+		"start": "next start",
+		"test": "xo"
 	},
-	"engines": {
-		"node": "12.x"
+	"author": {
+		"name": "Alex Page",
+		"email": "alex@alexpage.com.au",
+		"url": "https://alexpage.com.au/",
+		"twitter": "https://twitter.com/aalexpaage/"
 	},
+	"contributors": [
+		{
+			"name": "Alex Page",
+			"email": "alex@alexpage.com.au",
+			"url": "http://alexpage.com.au"
+		}
+	],
 	"repository": {
 		"type": "git",
-		"url": "git+https://github.com/alex-page/harmonograph.git"
+		"url": "git+https://github.com/alex-page/harmonograph.art"
 	},
-	"keywords": [],
-	"author": "",
-	"license": "ISC",
+	"license": "MIT",
 	"bugs": {
-		"url": "https://github.com/alex-page/harmonograph/issues"
+		"url": "https://github.com/alex-page/harmonograph.art/issues"
 	},
-	"homepage": "https://github.com/alex-page/harmonograph#readme",
-	"workspaces": [
-		"packages/*",
-		"apps/*",
-		"services/*"
-	],
+	"homepage": "https://github.com/alex-page/harmonograph.art#readme",
 	"dependencies": {
-		"@manypkg/cli": "^0.12.0",
-		"ava": "^3.8.0",
+		"@harmonograph/svg": "^0.1.1",
+		"next": "^9.3.5",
+		"prop-types": "^15.7.2",
+		"react": "^16.13.1",
+		"react-color": "^2.18.0",
+		"react-dom": "^16.13.1"
+	},
+	"devDependencies": {
+		"ava": "^3.8.1",
+		"eslint-config-xo-react": "^0.23.0",
+		"eslint-plugin-react": "^7.19.0",
+		"eslint-plugin-react-hooks": "^3.0.0",
 		"xo": "^0.30.0"
+	},
+	"xo": {
+		"extends": "xo-react",
+		"envs": [
+			"es2020",
+			"browser"
+		],
+		"rules": {
+			"import/no-unassigned-import": [
+				"error",
+				{
+					"allow": [
+						"css/global.css"
+					]
+				}
+			],
+			"import/extensions": [
+				"error",
+				{
+					"css": "always",
+					"json": "always"
+				}
+			]
+		}
 	}
 }

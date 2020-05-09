@@ -1,21 +1,8 @@
-import { h, Component } from 'preact';
+import {h} from 'preact';
 import { memo, forwardRef } from 'preact/compat';
 
-import style from './style';
+import style from './style.css';
 
-/**
- * Create a randomised harmonograph SVG
- *
- * Resources:
- * - https://en.wikipedia.org/wiki/Harmonograph
- * - https://aschinchon.wordpress.com/2014/10/13/beautiful-curves-the-harmonograph/
- *
- * @param  {number}  size            - The size of the svg
- * @param  {number}  strokeWidth     - The width of the line
- * @param  {string}  strokeColor     - The color of the harmonographrandomPendulum
- * @param  {string}  path            - The SVG path of the harmonograph
- * @param  {number}  pathLength      - The SVG path length
- */
 const HarmonographSVG = forwardRef(({
 	backgroundColor,
 	strokeColor,
@@ -46,5 +33,7 @@ const HarmonographSVG = forwardRef(({
 		/>
 	</svg>
 ));
+
+HarmonographSVG.displayName = "HarmonographSVG";
 
 export default memo(HarmonographSVG);

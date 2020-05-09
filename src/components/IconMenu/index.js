@@ -1,7 +1,7 @@
-import { h, Component } from 'preact';
+import {h} from 'preact';
 import pkg from '../../../package.json';
 
-import style from './style';
+import style from './style.css';
 
 import {
 	GitHubIcon, AuthorIcon, TwitterIcon, Logo
@@ -12,21 +12,21 @@ const IconMenu = () => {
 		{
 			text: pkg.name,
 			href: '/',
-			icon: <Logo/>
+			icon: <Logo />
 		}, {
 			text: 'GitHub',
 			href: pkg.homepage,
-			icon: <GitHubIcon/>,
+			icon: <GitHubIcon />,
 			target: '_blank'
 		}, {
 			text: 'Twitter',
 			href: pkg.author.twitter,
-			icon: <TwitterIcon/>,
+			icon: <TwitterIcon />,
 			target: '_blank'
 		}, {
 			text: pkg.author.name,
 			href: pkg.author.url,
-			icon: <AuthorIcon/>,
+			icon: <AuthorIcon />,
 			target: '_blank'
 		}
 	];

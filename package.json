@@ -7,7 +7,8 @@
 		"build": "preact build",
 		"serve": "sirv build --cors --single",
 		"dev": "preact watch",
-		"lint": "eslint src"
+		"lint": "eslint src",
+		"test": "jest"
 	},
 	"author": {
 		"name": "Alex Page",
@@ -31,12 +32,6 @@
 		"url": "https://github.com/alex-page/harmonograph.art/issues"
 	},
 	"homepage": "https://github.com/alex-page/harmonograph.art#readme",
-	"eslintConfig": {
-		"extends": "preact",
-		"ignorePatterns": [
-			"build/"
-		]
-	},
 	"devDependencies": {
 		"enzyme": "^3.10.0",
 		"enzyme-adapter-preact-pure": "^2.0.0",
@@ -45,7 +40,9 @@
 		"identity-obj-proxy": "^3.0.0",
 		"preact-cli": "^3.0.0-rc.6",
 		"preact-render-spy": "^1.2.1",
-		"sirv-cli": "^0.4.5"
+		"sirv-cli": "^0.4.5",
+		"jest": "^24.9.0",
+		"jest-preset-preact": "^1.0.0"
 	},
 	"dependencies": {
 		"@harmonograph/svg": "^0.1.1",
@@ -54,5 +51,17 @@
 		"preact-router": "^3.2.1",
 		"react-color": "^2.18.1",
 		"use-clipboard-copy": "^0.1.2"
+	},
+	"jest": {
+		"preset": "jest-preset-preact",
+		"setupFiles": [
+			"<rootDir>/tests/setupTests.js"
+		]
+	},
+	"eslintConfig": {
+		"extends": "preact",
+		"ignorePatterns": [
+			"build/"
+		]
 	}
 }

@@ -1,7 +1,7 @@
-import { h, Component } from 'preact';
+import {h, Fragment} from 'preact';
 
 import Label from '../Label';
-import style from './style';
+import style from './style.css';
 
 const RangeSlider = ({
 	id,
@@ -14,7 +14,7 @@ const RangeSlider = ({
 	children
 }) => {
 	return (
-		<>
+		<Fragment>
 			<div className={style.RangeSliderLabel}>
 				<Label htmlFor={id}>{label}</Label>{children}
 			</div>
@@ -28,7 +28,7 @@ const RangeSlider = ({
 				value={defaultValue}
 				oninput={event => onInput(event.target.value)}
 			/>
-		</>
+		</Fragment>
 	);
 };
 

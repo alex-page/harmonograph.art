@@ -1,8 +1,8 @@
-import { h, Component } from 'preact';
+import {h} from 'preact';
 import { useState } from 'preact/hooks';
 import {ChromePicker} from 'react-color';
 
-import style from './style';
+import style from './style.css';
 
 import Label from '../Label';
 import Popover from '../Popover';

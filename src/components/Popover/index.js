@@ -1,6 +1,6 @@
-import { h, Component } from 'preact';
+import {h} from 'preact';
 
-import style from './style';
+import style from './style.css';
 
 const Popover = ({hidePopover, isVisible, children}) => {
 	return (
@@ -8,7 +8,7 @@ const Popover = ({hidePopover, isVisible, children}) => {
 			<div
 				className={style.PopoverOverlay}
 				onClick={() => hidePopover()}
-				onTouchStart={() => hidePopover()}/>
+				onTouchStart={() => hidePopover()} />
 			<div className={style.PopoverContent}>
 				{children}
 			</div>

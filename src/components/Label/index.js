@@ -1,9 +1,9 @@
-import { h, Component } from 'preact';
+import {h} from 'preact';
 
-import style from './style';
+import style from './style.css';
 
-const Label = ({children}) => (
-	<label className={style.Label}>
+const Label = ({id, children}) => (
+	<label htmlFor={id} className={style.Label}>
 		{children}
 	</label>
 );

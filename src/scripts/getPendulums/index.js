@@ -16,8 +16,6 @@ const getPendulums = (pendulums) => {
 		});
 	}
 
-	console.log(newPendulums);
-
 	return newPendulums;
 }
 

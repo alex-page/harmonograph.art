@@ -1,21 +1,21 @@
-import {h, Component, createRef} from 'preact';
+import {h, createRef, Fragment} from 'preact';
 import {useState} from 'preact/hooks';
 import {useClipboard} from 'use-clipboard-copy';
 import {harmonographBezierPath, getPathLength} from '@harmonograph/svg';
 
-import pkg from '../../package.json';
-import getPendulums from '../scripts/get-pendulums';
-import getColor from '../scripts/get-color';
-import useInterval from '../hooks/use-interval';
+import pkg from '../../../package.json';
+import getPendulums from '../../scripts/getPendulums';
+import getColor from '../../scripts/getColor';
+import useInterval from '../../hooks/useInterval';
 
-import AppLayout, {AppLayoutMain, AppLayoutNav, AppLayoutAside} from './AppLayout';
-import Scrollable from './Scrollable';
-import Button from './Button';
-import ColorPicker from './ColorPicker';
-import HarmonographSVG from './HarmonographSvg';
-import RangeSlider from './RangeSlider';
-import IconMenu from './IconMenu';
-import {SidebarHeader, SidebarFooter, SidebarMain} from './Sidebar';
+import AppLayout, {AppLayoutMain, AppLayoutNav, AppLayoutAside} from '../AppLayout';
+import Scrollable from '../Scrollable';
+import Button from '../Button';
+import ColorPicker from '../ColorPicker';
+import HarmonographSVG from '../HarmonographSvg';
+import RangeSlider from '../RangeSlider';
+import IconMenu from '../IconMenu';
+import {SidebarHeader, SidebarFooter, SidebarMain} from '../Sidebar';
 import {
 	DownloadIcon,
 	RandomIcon,
@@ -23,7 +23,7 @@ import {
 	PauseIcon,
 	PlayIcon,
 	SuccessIcon
-} from './Icons';
+} from '../Icons';
 
 const Page = ({
 	strokeColorQuery,
@@ -110,7 +110,7 @@ const Page = ({
 					<SidebarHeader title={`${pkg.name} - v${pkg.version}`}>
 						<p>{pkg.description}</p>
 						<Button rotateIcon isSecondary onClick={randomHarmonograph}>
-							<><RandomIcon/> Randomise harmonograph</>
+							<RandomIcon /> Randomise harmonograph
 						</Button>
 					</SidebarHeader>
 					<SidebarMain>
@@ -158,7 +158,11 @@ const Page = ({
 									}
 								}}
 							>
-								{isDrawing ? <><PauseIcon/> Pause</> : <><PlayIcon/> Play</>}
+								{
+									isDrawing
+										? <Fragment><PauseIcon /> Pause</Fragment>
+										: <Fragment><PlayIcon /> Play</Fragment>
+								}
 							</Button>
 						</RangeSlider>
 					</SidebarMain>
@@ -169,13 +173,13 @@ const Page = ({
 					>
 						{
 							clipboard.copied
-								? <><SuccessIcon/> Copied</>
-								: <><ShareIcon/> Share</>
+								? <><SuccessIcon /> Copied</>
+								: <><ShareIcon /> Share</>
 						}
 						
 					</Button>
 					<Button onClick={downloadHarmonograph}>
-						<DownloadIcon/>Download
+						<DownloadIcon />Download
 					</Button>
 				</SidebarFooter>
 			</AppLayoutAside>
@@ -193,7 +197,7 @@ const Page = ({
 				/>
 			</AppLayoutMain>
 			<AppLayoutNav>
-				<IconMenu/>
+				<IconMenu />
 			</AppLayoutNav>
 		</AppLayout>
 	)

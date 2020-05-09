@@ -1,4 +1,8 @@
 node_modules
-.next
-.now
+/build
+/*.log
+*.lock
+
+package-lock.json
+.vercel
 .DS_STORE

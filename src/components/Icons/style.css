@@ -1,0 +1,19 @@
+.SidebarIcon {
+	fill: var(--text-color);
+	width: 40%;
+	height: 40%;
+}
+
+.ButtonIcon {
+	fill: currentColor;
+	width: 1rem;
+	height: 1rem;
+	margin-right: 0.75rem;
+	align-items: center;
+	justify-content: center;
+}
+
+.LogoIcon {
+	width: 40%;
+	height: 40%;
+}

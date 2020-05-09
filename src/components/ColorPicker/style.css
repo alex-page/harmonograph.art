@@ -1,0 +1,38 @@
+.ColorPicker {
+	display: flex;
+	flex-wrap: wrap;
+	position: relative;
+}
+
+.Input {
+	border: none;
+	font-size: var(--base-font-size);
+	font-family: var(--base-font);
+	border-radius: 0.25rem;
+
+	background: var(--background-color);
+	margin-top: 1rem;
+	color: var(--text-color);
+	padding: 0.5rem 0.75rem;
+	width: calc(100% - 5rem);
+}
+
+.Input:hover,
+.Input:focus,
+.Swatch:hover,
+.Swatch:focus {
+	outline: 2px solid var(--active-color);
+	outline-offset: 4px;
+}
+
+.Swatch {
+	cursor: pointer;
+	border: none;
+	width: 2.5rem;
+	height: 2.5rem;
+	margin-top: 0.75rem;
+	display: block;
+	border-radius: 0.25rem;
+	border: 1px solid var(--background-color);
+	margin-right: 0.75rem;
+}

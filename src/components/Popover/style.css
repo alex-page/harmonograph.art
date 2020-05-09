@@ -1,0 +1,14 @@
+.PopoverOverlay {
+	position: fixed;
+	top: 0;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	z-index: 1;
+}
+.PopoverContent {
+	position: absolute;
+	left: 3rem;
+	top: calc(100% + 0.5rem);
+	z-index: 10;
+}

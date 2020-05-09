@@ -2,7 +2,6 @@
 
 > Coming soon, 💫 the repo
 
-- Hover on colors
-- Service worker
 - Readme docs
+- 404 page
 - alexpage.com.au updates

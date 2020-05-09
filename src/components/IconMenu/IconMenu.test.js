@@ -11,7 +11,7 @@ import {
 
 describe('renders', () => {
 	test('renders menu', () => {
-		const context = shallow(<IconMenu/>);
+		const context = shallow(<IconMenu />);
 		expect(context.find('li').length).toBe(4);
 		expect(context.find('a').length).toBe(4);
 		expect(context.find(GitHubIcon).length).toBe(1);

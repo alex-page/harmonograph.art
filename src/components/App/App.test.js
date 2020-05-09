@@ -5,7 +5,7 @@ import App from '.';
 
 describe('renders', () => {
 	test('App renders', () => {
-		const context = shallow(<App/>);
+		const context = shallow(<App />);
 		expect(context.getElements().length).toBe(1);
 	});
 });

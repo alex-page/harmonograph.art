@@ -16,77 +16,70 @@ import {
 
 describe('GitHubIcon renders', () => {
 	test('renders menu', () => {
-		const context = shallow(<GitHubIcon/>);
+		const context = shallow(<GitHubIcon />);
 		expect(context.find('svg').length).toBe(1);
 	});
 });
 
 describe('AuthorIcon renders', () => {
 	test('renders menu', () => {
-		const context = shallow(<AuthorIcon/>);
+		const context = shallow(<AuthorIcon />);
 		expect(context.find('svg').length).toBe(1);
 	});
 });
 
 describe('TwitterIcon renders', () => {
 	test('renders menu', () => {
-		const context = shallow(<TwitterIcon/>);
+		const context = shallow(<TwitterIcon />);
 		expect(context.find('svg').length).toBe(1);
 	});
 });
 
 describe('Logo renders', () => {
 	test('renders menu', () => {
-		const context = shallow(<Logo/>);
-		expect(context.find('svg').length).toBe(1);
-	});
-});
-
-describe('GitHubIcon renders', () => {
-	test('renders menu', () => {
-		const context = shallow(<GitHubIcon/>);
+		const context = shallow(<Logo />);
 		expect(context.find('svg').length).toBe(1);
 	});
 });
 
 describe('DownloadIcon renders', () => {
 	test('renders menu', () => {
-		const context = shallow(<DownloadIcon/>);
+		const context = shallow(<DownloadIcon />);
 		expect(context.find('svg').length).toBe(1);
 	});
 });
 
 describe('RandomIcon renders', () => {
 	test('renders menu', () => {
-		const context = shallow(<RandomIcon/>);
+		const context = shallow(<RandomIcon />);
 		expect(context.find('svg').length).toBe(1);
 	});
 });
 
 describe('ShareIcon renders', () => {
 	test('renders menu', () => {
-		const context = shallow(<ShareIcon/>);
+		const context = shallow(<ShareIcon />);
 		expect(context.find('svg').length).toBe(1);
 	});
 });
 
 describe('PauseIcon renders', () => {
 	test('renders menu', () => {
-		const context = shallow(<PauseIcon/>);
+		const context = shallow(<PauseIcon />);
 		expect(context.find('svg').length).toBe(1);
 	});
 });
 
 describe('PlayIcon renders', () => {
 	test('renders menu', () => {
-		const context = shallow(<PlayIcon/>);
+		const context = shallow(<PlayIcon />);
 		expect(context.find('svg').length).toBe(1);
 	});
 });
 
 describe('SuccessIcon renders', () => {
 	test('renders menu', () => {
-		const context = shallow(<SuccessIcon/>);
+		const context = shallow(<SuccessIcon />);
 		expect(context.find('svg').length).toBe(1);
 	});
 });

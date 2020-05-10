@@ -8,7 +8,8 @@ import getPendulums from '../../scripts/getPendulums';
 import getColor from '../../scripts/getColor';
 import useInterval from '../../hooks/useInterval';
 
-import AppLayout, {AppLayoutMain, AppLayoutNav, AppLayoutAside} from '../AppLayout';
+import style from './style.css';
+
 import Scrollable from '../Scrollable';
 import Button from '../Button';
 import ColorPicker from '../ColorPicker';
@@ -104,8 +105,8 @@ const Page = ({
 	}, isDrawing ? 1000 : null);
 
 	return (
-		<AppLayout>
-			<AppLayoutAside>
+		<div className={style.PageLayout}>
+			<aside className={style.PageAside}>
 				<Scrollable>
 					<SidebarHeader title={`${pkg.name} - v${pkg.version}`}>
 						<p>{pkg.description}</p>
@@ -182,8 +183,8 @@ const Page = ({
 						<DownloadIcon />Download
 					</Button>
 				</SidebarFooter>
-			</AppLayoutAside>
-			<AppLayoutMain>
+			</aside>
+			<main className={style.PageMain}>
 				<HarmonographSVG
 					ref={harmonographSVGRef}
 					strokeColor={strokeColor}
@@ -195,11 +196,11 @@ const Page = ({
 					path={path}
 					strokeLength={strokeLength}
 				/>
-			</AppLayoutMain>
-			<AppLayoutNav>
+			</main>
+			<nav className={style.PageNav}>
 				<IconMenu />
-			</AppLayoutNav>
-		</AppLayout>
+			</nav>
+		</div>
 	)
 }
 

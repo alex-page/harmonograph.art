@@ -8,20 +8,11 @@ import Label from '../Label';
 import Popover from '../Popover';
 import VisuallyHidden from '../VisuallyHidden';
 
-const ColorPicker = ({id, label, defaultValue, onChange}) => {
+const ColorInput = ({id, label, defaultValue}) => {
 	const [showPicker, setShowPicker] = useState(false);
 
-	const updateColor = ({rgb, hex}) => {
-		const {r, g, b, a} = rgb;
-		const color = a === 1 ?
-			hex.toUpperCase() :
-			`rgba(${r},${g},${b},${a})`;
-
-		return onChange(color);
-	};
-
 	return (
-		<div className={style.ColorPicker}>
+		<div className={style.ColorInput}>
 			<Label id={id}>{label}</Label>
 			<button
 				className={style.Swatch}
@@ -46,13 +37,10 @@ const ColorPicker = ({id, label, defaultValue, onChange}) => {
 				isVisible={showPicker}
 				hidePopover={() => setShowPicker(false)}
 			>
-				{/* <ChromePicker
-					color={defaultValue}
-					onChange={updateColor}
-				/> */}
+				<p>Content</p>
 			</Popover>
 		</div>
 	);
 };
 
-export default ColorPicker;
+export default ColorInput;

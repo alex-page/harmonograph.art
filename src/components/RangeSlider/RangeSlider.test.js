@@ -27,7 +27,7 @@ describe('children', () => {
 
 describe('id', () => {
 	test('RangeSlider id on label for and input id', () => {
-		expect(context.find(Label).props().htmlFor).toBe('hey');
+		expect(context.find(Label).props().id).toBe('hey');
 		expect(context.find('input').props().id).toBe('hey');
 	});
 });

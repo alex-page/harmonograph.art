@@ -1,5 +1,5 @@
 import {h} from 'preact';
-import { render } from 'enzyme';
+import {render} from 'enzyme';
 
 import HarmonographSvg from '.';
 
@@ -10,7 +10,6 @@ describe('backgroundColor', () => {
 				backgroundColor="red"
 				strokeColor="green"
 				strokeWidth="1"
-				strokeLength="1000"
 				path="a a a"
 				strokePercentage="30"
 				isDrawing="false"
@@ -28,7 +27,6 @@ describe('strokeColor', () => {
 				backgroundColor="red"
 				strokeColor="green"
 				strokeWidth="1"
-				strokeLength="1000"
 				path="a a a"
 				strokePercentage="30"
 				isDrawing="false"
@@ -46,7 +44,6 @@ describe('strokeWidth', () => {
 				backgroundColor="red"
 				strokeColor="green"
 				strokeWidth="1"
-				strokeLength="1000"
 				path="a a a"
 				strokePercentage="30"
 				isDrawing="false"
@@ -64,7 +61,6 @@ describe('path', () => {
 				backgroundColor="red"
 				strokeColor="green"
 				strokeWidth="1"
-				strokeLength="1000"
 				path="a a a"
 				strokePercentage="30"
 				isDrawing="false"
@@ -82,15 +78,14 @@ describe('strokePercentage', () => {
 				backgroundColor="red"
 				strokeColor="green"
 				strokeWidth="1"
-				strokeLength="1000"
 				path="a a a"
-				strokePercentage="30"
+				strokePercentage="50"
 				isDrawing="false"
 			/>
 		);
 
 		const contextStyle = context['0'].children[0].attribs.style;
-		expect(contextStyle.includes('stroke-dashoffset: 500px;')).toBe(true);
+		expect(contextStyle.includes('stroke-dashoffset: 50px;')).toBe(true);
 	});
 });
 
@@ -101,7 +96,6 @@ describe('isDrawing', () => {
 				backgroundColor="red"
 				strokeColor="green"
 				strokeWidth="1"
-				strokeLength="1000"
 				path="a a a"
 				strokePercentage="0"
 				isDrawing={false}
@@ -118,7 +112,6 @@ describe('isDrawing', () => {
 				backgroundColor="red"
 				strokeColor="green"
 				strokeWidth="1"
-				strokeLength="1000"
 				path="a a a"
 				strokePercentage="0"
 				isDrawing={true}

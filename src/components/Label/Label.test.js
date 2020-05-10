@@ -13,6 +13,6 @@ describe('children', () => {
 describe('id', () => {
 	test('Label uses id', () => {
 		const context = shallow(<Label id="a"><p>Hello world</p></Label>);
-		expect(context.find('label').props().htmlFor).toBe('a');
+		expect(context.find('label').props().for).toBe('a');
 	});
 });

@@ -1,13 +1,13 @@
 import {h} from 'preact';
 import {shallow} from 'enzyme';
 
-import ColorPicker from '.';
+import ColorInput from '.';
 import Label from '../Label';
 
 describe('id', () => {
 	test('id', () => {
 		const context = shallow(
-			<ColorPicker
+			<ColorInput
 				label="Background color"
 				id="backgroundColor"
 				defaultValue={'#000'}
@@ -17,14 +17,14 @@ describe('id', () => {
 
 		expect(context.find('button').props().id).toBe('swatch-backgroundColor');
 		expect(context.find('input').props().id).toBe('backgroundColor');
-		expect(context.find(Label).props().htmlFor).toBe('backgroundColor');
+		expect(context.find(Label).props().id).toBe('backgroundColor');
 	});
 });
 
 describe('label', () => {
 	test('label', () => {
 		const context = shallow(
-			<ColorPicker
+			<ColorInput
 				label="Background color"
 				id="backgroundColor"
 				defaultValue={'#000'}
@@ -39,7 +39,7 @@ describe('label', () => {
 describe('defaultValue', () => {
 	test('defaultValue', () => {
 		const context = shallow(
-			<ColorPicker
+			<ColorInput
 				label="Background color"
 				id="backgroundColor"
 				defaultValue={'#000'}

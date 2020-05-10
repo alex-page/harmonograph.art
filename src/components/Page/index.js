@@ -12,7 +12,7 @@ import style from './style.css';
 
 import Scrollable from '../Scrollable';
 import Button from '../Button';
-import ColorPicker from '../ColorPicker';
+import ColorInput from '../ColorInput';
 import HarmonographSVG from '../HarmonographSvg';
 import RangeSlider from '../RangeSlider';
 import IconMenu from '../IconMenu';
@@ -113,19 +113,17 @@ const Page = ({
 						</Button>
 					</SidebarHeader>
 					<SidebarMain>
-						<ColorPicker
+						<ColorInput
 							label="Stroke color"
 							id="strokeColor"
 							popoverOpen={false}
 							defaultValue={strokeColor}
-							onChange={setStrokeColor}
 						/>
-						<ColorPicker
+						<ColorInput
 							label="Background color"
 							id="backgroundColor"
 							popoverOpen={false}
 							defaultValue={backgroundColor}
-							onChange={setBackgroundColor}
 						/>
 						<RangeSlider
 							label="Stroke width"

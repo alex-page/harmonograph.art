@@ -1,7 +1,7 @@
 import {h, createRef, Fragment} from 'preact';
 import {useState} from 'preact/hooks';
 import {useClipboard} from 'use-clipboard-copy';
-import {harmonographBezierPath, getPathLength} from '@harmonograph/svg';
+import {harmonographBezierPath} from '@harmonograph/svg';
 
 import pkg from '../../../package.json';
 import getPendulums from '../../scripts/getPendulums';
@@ -41,7 +41,6 @@ const Page = ({
 	const [isDrawing, setIsDrawing] = useState(isDrawingQuery !== 'false');
 	const [pendulums, setPendulums] = useState(() => getPendulums(pendulumsQuery));
 	const [path, setPath] = useState(harmonographBezierPath(300, 700, pendulums));
-	const [strokeLength, setStrokeLength] = useState(getPathLength(path));
 
 	const harmonographSVGRef = createRef();
 
@@ -88,7 +87,6 @@ const Page = ({
 		setPendulums(newPendulums);
 		setPath(path);
 		setStrokePercentage(0);
-		setStrokeLength(getPathLength(path));
 		setStrokeColor(getColor());
 		setBackgroundColor(getColor());
 		setIsDrawing(true);
@@ -141,7 +139,7 @@ const Page = ({
 						<RangeSlider
 							label="Stroke length"
 							min="0"
-							max="60"
+							max="100"
 							defaultValue={strokePercentage}
 							step="1"
 							id="strokePercentage"
@@ -194,7 +192,6 @@ const Page = ({
 					strokePercentage={strokePercentage}
 					isDrawing={isDrawing}
 					path={path}
-					strokeLength={strokeLength}
 				/>
 			</main>
 			<nav className={style.PageNav}>

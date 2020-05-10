@@ -7,7 +7,6 @@ const HarmonographSVG = forwardRef(({
 	backgroundColor,
 	strokeColor,
 	strokeWidth,
-	strokeLength,
 	path,
 	strokePercentage,
 	isDrawing
@@ -22,9 +21,10 @@ const HarmonographSVG = forwardRef(({
 		<path
 			stroke={strokeColor}
 			strokeWidth={strokeWidth}
+			pathLength="100"
 			style={{
-				strokeDasharray: strokeLength,
-				strokeDashoffset: strokeLength - (strokePercentage / 60 * strokeLength),
+				strokeDasharray: 100,
+				strokeDashoffset: 100 - strokePercentage,
 				transition: isDrawing && strokePercentage ? 'stroke-dashoffset 1s linear' : 'none'
 			}}
 			className={style.Path}

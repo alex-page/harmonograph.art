@@ -94,25 +94,6 @@ describe('strokePercentage', () => {
 	});
 });
 
-describe('strokeLength', () => {
-	test('strokeLength', () => {
-		const context = render(
-			<HarmonographSvg
-				backgroundColor="red"
-				strokeColor="green"
-				strokeWidth="1"
-				strokeLength="1000"
-				path="a a a"
-				strokePercentage="30"
-				isDrawing="false"
-			/>
-		);
-
-		const contextStyle = context['0'].children[0].attribs.style;
-		expect(contextStyle.includes('stroke-dasharray: 1000;')).toBe(true);
-	});
-});
-
 describe('isDrawing', () => {
 	test('isDrawing false has transition none', () => {
 		const context = render(

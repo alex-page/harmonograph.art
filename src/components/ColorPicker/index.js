@@ -1,6 +1,6 @@
 import {h} from 'preact';
 import { useState } from 'preact/hooks';
-import {ChromePicker} from 'react-color';
+// import {ChromePicker} from 'react-color';
 
 import style from './style.css';
 
@@ -46,10 +46,10 @@ const ColorPicker = ({id, label, defaultValue, onChange}) => {
 				isVisible={showPicker}
 				hidePopover={() => setShowPicker(false)}
 			>
-				<ChromePicker
+				{/* <ChromePicker
 					color={defaultValue}
 					onChange={updateColor}
-				/>
+				/> */}
 			</Popover>
 		</div>
 	);

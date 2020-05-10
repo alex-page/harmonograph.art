@@ -22,7 +22,7 @@ const ColorPicker = ({id, label, defaultValue, onChange}) => {
 
 	return (
 		<div className={style.ColorPicker}>
-			<Label htmlFor={id}>{label}</Label>
+			<Label id={id}>{label}</Label>
 			<button
 				className={style.Swatch}
 				style={{backgroundColor: defaultValue}}

@@ -16,7 +16,7 @@ const RangeSlider = ({
 	return (
 		<Fragment>
 			<div className={style.RangeSliderLabel}>
-				<Label htmlFor={id}>{label}</Label>{children}
+				<Label id={id}>{label}</Label>{children}
 			</div>
 			<input
 				className={style.RangeSlider}

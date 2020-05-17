@@ -12,7 +12,7 @@ const IconMenu = () => {
 		{
 			text: pkg.name,
 			href: '/',
-			icon: <Logo />
+			icon: <img width="32" src="/assets/logo.png" />
 		}, {
 			text: 'GitHub',
 			href: pkg.homepage,

@@ -40,7 +40,7 @@ const Page = ({
 	const [strokePercentage, setStrokePercentage] = useState(strokePercentageQuery || 0);
 	const [isDrawing, setIsDrawing] = useState(isDrawingQuery !== 'false');
 	const [pendulums, setPendulums] = useState(() => getPendulums(pendulumsQuery));
-	const [path, setPath] = useState(harmonographBezierPath(300, 700, pendulums));
+	const [path, setPath] = useState(() => harmonographBezierPath(300, 700, pendulums));
 
 	const harmonographSVGRef = createRef();
 
@@ -134,7 +134,7 @@ const Page = ({
 							step="0.25"
 							id="strokeWidth"
 							defaultValue={strokeWidth}
-							onInput={setStrokeWidth}
+							setValue={setStrokeWidth}
 						/>
 						<RangeSlider
 							label="Stroke length"
@@ -143,7 +143,7 @@ const Page = ({
 							defaultValue={strokePercentage}
 							step="1"
 							id="strokePercentage"
-							onInput={value => {
+							setValue={value => {
 								setStrokePercentage(value);
 								setIsDrawing(false);
 							}}

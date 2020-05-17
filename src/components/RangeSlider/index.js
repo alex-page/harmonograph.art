@@ -10,7 +10,7 @@ const RangeSlider = ({
 	min,
 	step,
 	defaultValue,
-	onInput,
+	setValue,
 	children
 }) => {
 	return (
@@ -26,7 +26,7 @@ const RangeSlider = ({
 				min={min}
 				step={step}
 				value={defaultValue}
-				oninput={event => onInput(event.target.value)}
+				oninput={event => setValue(event.target.value)}
 			/>
 		</Fragment>
 	);

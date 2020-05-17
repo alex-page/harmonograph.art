@@ -4,7 +4,7 @@
 	"private": true,
 	"description": "Draw, download and share a randomised harmonograph.",
 	"scripts": {
-		"build": "preact build --analyze",
+		"build": "preact build",
 		"serve": "sirv build --cors --single",
 		"dev": "preact watch",
 		"lint": "eslint src",

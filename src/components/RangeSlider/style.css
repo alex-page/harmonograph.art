@@ -1,11 +1,8 @@
 .RangeSlider {
 	appearance: none;
-
 	height: 0.5rem;
 	width: 100%;
-
 	margin-bottom: 1rem;
-
 	background: var(--background-color);
 	cursor: pointer;
 	border-radius: 0.25rem;
@@ -13,16 +10,10 @@
 
 .RangeSlider::-moz-range-thumb,
 .RangeSlider::-webkit-slider-thumb {
-	cursor: grab;
 	background: #fff;
 	border: none;
 }
 
-.RangeSlider:active,
-.RangeSlider:active::-moz-range-thumb,
-.RangeSlider:active::-webkit-slider-thumb {
-	cursor: grabbing;
-}
 
 .RangeSlider:hover::-moz-range-thumb,
 .RangeSlider:hover::-webkit-slider-thumb,

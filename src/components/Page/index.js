@@ -1,5 +1,5 @@
 import {h, createRef, Fragment} from 'preact';
-import {useState} from 'preact/hooks';
+import {useState, useEffect} from 'preact/hooks';
 import {useClipboard} from 'use-clipboard-copy';
 import {harmonographBezierPath} from '@harmonograph/svg';
 
@@ -15,7 +15,6 @@ import Button from '../Button';
 import ColorInput from '../ColorInput';
 import HarmonographSVG from '../HarmonographSvg';
 import RangeSlider from '../RangeSlider';
-import IconMenu from '../IconMenu';
 import {SidebarHeader, SidebarFooter, SidebarMain} from '../Sidebar';
 import {
 	DownloadIcon,
@@ -41,10 +40,11 @@ const Page = ({
 	const [isDrawing, setIsDrawing] = useState(isDrawingQuery !== 'false');
 	const [pendulums, setPendulums] = useState(() => getPendulums(pendulumsQuery));
 	const [path, setPath] = useState(() => harmonographBezierPath(300, 700, pendulums));
+	const [pathLength, setPathLength] = useState(null);
 
 	const harmonographSVGRef = createRef();
-
 	const clipboard = useClipboard({ copiedTimeout: 1000 });
+
 	const shareHarmonograph = () => {
 		const path = Object.values({
 			strokeColor: strokeColor.replace('#', ''),
@@ -61,8 +61,9 @@ const Page = ({
 			navigator.share({ title: pkg.name, text: pkg.description, url});
 			return;
 		}
-
-		clipboard.copy(url);
+		else {
+			clipboard.copy(url);
+		}
 	};
 
 	const downloadHarmonograph = () => {
@@ -102,8 +103,16 @@ const Page = ({
 		setStrokePercentage((Number(strokePercentage) + 1).toString());
 	}, isDrawing ? 1000 : null);
 
+	useEffect(() => {
+		const newPathLength = harmonographSVGRef.current.firstElementChild.getTotalLength();
+		if(newPathLength && pathLength !== newPathLength) {
+			console.log('ran');
+			setPathLength(newPathLength);
+		}
+	}, [harmonographSVGRef, pathLength]);
+
 	return (
-		<div className={style.PageLayout}>
+		<>
 			<aside className={style.PageAside}>
 				<Scrollable>
 					<SidebarHeader title={`${pkg.name} - v${pkg.version}`}>
@@ -192,12 +201,10 @@ const Page = ({
 					strokePercentage={strokePercentage}
 					isDrawing={isDrawing}
 					path={path}
+					pathLength={pathLength}
 				/>
 			</main>
-			<nav className={style.PageNav}>
-				<IconMenu />
-			</nav>
-		</div>
+		</>
 	)
 }
 

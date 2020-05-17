@@ -13,6 +13,7 @@ describe('backgroundColor', () => {
 				path="a a a"
 				strokePercentage="30"
 				isDrawing="false"
+				pathLength={100}
 			/>
 		);
 
@@ -30,6 +31,7 @@ describe('strokeColor', () => {
 				path="a a a"
 				strokePercentage="30"
 				isDrawing="false"
+				pathLength={100}
 			/>
 		);
 
@@ -47,6 +49,7 @@ describe('strokeWidth', () => {
 				path="a a a"
 				strokePercentage="30"
 				isDrawing="false"
+				pathLength={100}
 			/>
 		);
 
@@ -64,6 +67,7 @@ describe('path', () => {
 				path="a a a"
 				strokePercentage="30"
 				isDrawing="false"
+				pathLength={100}
 			/>
 		);
 
@@ -81,6 +85,7 @@ describe('strokePercentage', () => {
 				path="a a a"
 				strokePercentage="50"
 				isDrawing="false"
+				pathLength={100}
 			/>
 		);
 
@@ -99,6 +104,7 @@ describe('isDrawing', () => {
 				path="a a a"
 				strokePercentage="0"
 				isDrawing={false}
+				pathLength={100}
 			/>
 		);
 
@@ -115,6 +121,7 @@ describe('isDrawing', () => {
 				path="a a a"
 				strokePercentage="0"
 				isDrawing={true}
+				pathLength={100}
 			/>
 		);
 

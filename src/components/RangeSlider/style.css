@@ -8,6 +8,11 @@
 	border-radius: 0.25rem;
 }
 
+.RangeSlider:focus {
+	outline: 2px solid var(--active-color);
+	outline-offset: 4px;
+}
+
 .RangeSlider::-moz-range-thumb,
 .RangeSlider::-webkit-slider-thumb {
 	background: #fff;

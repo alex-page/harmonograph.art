@@ -20,8 +20,8 @@
 
 .Input:hover,
 .Input:focus,
-.Swatch:hover,
-.Swatch:focus {
+.SwatchButton:hover,
+.SwatchButton:focus {
 	outline: 2px solid var(--active-color);
 	outline-offset: 4px;
 }
@@ -47,5 +47,4 @@
 	bottom: 0;
 	right: 0;
 	border-radius: 0.25rem;
-	border: 1px solid var(--background-color);
 }

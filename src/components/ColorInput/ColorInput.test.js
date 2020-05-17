@@ -10,8 +10,8 @@ describe('id', () => {
 			<ColorInput
 				label="Background color"
 				id="backgroundColor"
-				defaultValue={'#000'}
-				onChange={() => null}
+				color={'#000'}
+				setColor={() => null}
 			/>
 		);
 
@@ -27,8 +27,8 @@ describe('label', () => {
 			<ColorInput
 				label="Background color"
 				id="backgroundColor"
-				defaultValue={'#000'}
-				onChange={() => null}
+				color={'#000'}
+				setColor={() => null}
 			/>
 		);
 
@@ -36,18 +36,18 @@ describe('label', () => {
 	});
 });
 
-describe('defaultValue', () => {
-	test('defaultValue', () => {
+describe('color', () => {
+	test('color', () => {
 		const context = shallow(
 			<ColorInput
 				label="Background color"
 				id="backgroundColor"
-				defaultValue={'#000'}
-				onChange={() => null}
+				color={'#000'}
+				setColor={() => null}
 			/>
 		);
 
-		expect(context.find('button').props().style.backgroundColor).toBe('#000');
+		expect(context.find('button > span').props().style.backgroundColor).toBe('#000');
 		expect(context.find('input').props().value).toBe('#000');
 	})
 })

@@ -7,7 +7,8 @@
 		"build": "preact build --analyze",
 		"serve": "sirv build --cors --single",
 		"dev": "preact watch",
-		"lint": "eslint src --fix",
+		"lint": "eslint src",
+		"lint:fix": "eslint src --fix",
 		"test": "jest"
 	},
 	"author": {

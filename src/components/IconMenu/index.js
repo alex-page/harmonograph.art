@@ -4,7 +4,7 @@ import pkg from '../../../package.json';
 import style from './style.css';
 
 import {
-	GitHubIcon, AuthorIcon, TwitterIcon, Logo
+	GitHubIcon, AuthorIcon, TwitterIcon
 } from '../Icons';
 
 const IconMenu = () => {

@@ -6,7 +6,6 @@ import {
 	GitHubIcon,
 	AuthorIcon,
 	TwitterIcon,
-	Logo
 } from '../Icons';
 
 describe('renders', () => {
@@ -17,6 +16,5 @@ describe('renders', () => {
 		expect(context.find(GitHubIcon).length).toBe(1);
 		expect(context.find(AuthorIcon).length).toBe(1);
 		expect(context.find(TwitterIcon).length).toBe(1);
-		expect(context.find(Logo).length).toBe(1);
 	});
 });

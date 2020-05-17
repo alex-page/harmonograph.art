@@ -1,5 +1,5 @@
 import {h} from 'preact';
-import {useState, useEffect, useRef, useCallback} from 'preact/hooks';
+import {useState, useEffect, useRef} from 'preact/hooks';
 import colorString from 'color-string';
 
 import Label from '../Label';
@@ -9,11 +9,14 @@ import style from './style.css';
 
 
 const RGBtoHSVA = ([r,g,b,a]) => {
-	var max = Math.max(r, g, b), min = Math.min(r, g, b),
-		d = max - min,
-		h,
-		s = (max === 0 ? 0 : d / max),
-		v = max / 255;
+	const max = Math.max(r, g, b);
+	const min = Math.min(r, g, b);
+	
+	const d = max - min;
+	const s = (max === 0 ? 0 : d / max);
+	const v = max / 255;
+	
+	let h;
 
 	switch (max) {
 		case min: h = 0; break;
@@ -28,15 +31,17 @@ const RGBtoHSVA = ([r,g,b,a]) => {
 }
 
 const HSVtoHEX = ([h,s,v,a]) => {
-	var r, g, b;
+	let r;
+	let g;
+	let b;
 
 	h = h / 360;
 
-  var i = Math.floor(h * 6);
-  var f = h * 6 - i;
-  var p = v * (1 - s);
-  var q = v * (1 - f * s);
-  var t = v * (1 - (1 - f) * s);
+  let i = Math.floor(h * 6);
+  let f = h * 6 - i;
+  let p = v * (1 - s);
+  let q = v * (1 - f * s);
+  let t = v * (1 - (1 - f) * s);
 
   switch (i % 6) {
     case 0: r = v, g = t, b = p; break;
@@ -89,7 +94,7 @@ const ColorPicker = ({
 			setX(s * width);
 			setY(height - (v * height));
 		}
-	}, [inputColor, width, height]);
+	}, [color, inputColor, width, height]);
 
 	useEffect(() => {
 		updateRect();
@@ -161,8 +166,7 @@ const ColorPicker = ({
 					opacity: alpha,
 				}}>
 					<div className={style.WhiteGradient}>
-						<div className={style.BlackGradient}>
-						</div>
+						<div className={style.BlackGradient} />
 					</div>
 				</div>
 				<div

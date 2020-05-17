@@ -18,15 +18,3 @@ describe('hidePopover()', () => {
 		expect(onClickSpy).toHaveBeenCalledTimes(1);
 	});
 });
-
-describe('isVisible', () => {
-	test('isVisible', () => {
-		const context = shallow(<Popover isVisible>Hello world</Popover>);
-		expect(context.props().style.display).toBe('block');
-	});
-
-	test('isVisible false', () => {
-		const context = shallow(<Popover isVisible={false}>Hello world</Popover>);
-		expect(context.props().style.display).toBe('none');
-	});
-});

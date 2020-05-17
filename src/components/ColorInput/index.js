@@ -21,8 +21,8 @@ const ColorInput = ({id, label, color, setColor}) => {
 				onClick={() => setShowPicker(true)}
 				onTouchStart={() => setShowPicker(true)}
 			>
+				<span className={style.Swatch} style={{backgroundColor: color}} />
 				<VisuallyHidden>Open swatch</VisuallyHidden>
-				<span className={style.Swatch} style={{backgroundColor: color}}></span>
 			</button>
 			<input
 				className={style.Input}

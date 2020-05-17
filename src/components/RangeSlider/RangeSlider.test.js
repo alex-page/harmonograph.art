@@ -4,7 +4,7 @@ import {shallow} from 'enzyme';
 import RangeSlider from '.';
 import Label from '../Label';
 
-const onInputSpy = jest.fn();
+const setValueSpy = jest.fn();
 const context = shallow(
 	<RangeSlider
 		id="hey"
@@ -13,7 +13,7 @@ const context = shallow(
 		min="0"
 		step="1"
 		defaultValue="5"
-		onInput={onInputSpy}
+		setValue={setValueSpy}
 	>
 		<p>Hello world</p>
 	</RangeSlider>

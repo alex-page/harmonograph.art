@@ -5,7 +5,6 @@ import {
 	GitHubIcon,
 	AuthorIcon,
 	TwitterIcon,
-	Logo,
 	DownloadIcon,
 	RandomIcon,
 	ShareIcon,
@@ -31,13 +30,6 @@ describe('AuthorIcon renders', () => {
 describe('TwitterIcon renders', () => {
 	test('renders menu', () => {
 		const context = shallow(<TwitterIcon />);
-		expect(context.find('svg').length).toBe(1);
-	});
-});
-
-describe('Logo renders', () => {
-	test('renders menu', () => {
-		const context = shallow(<Logo />);
 		expect(context.find('svg').length).toBe(1);
 	});
 });

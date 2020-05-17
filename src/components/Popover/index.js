@@ -11,7 +11,7 @@ const Popover = ({hidePopover, leftOffset = '0', children}) => {
 		return () => {
 			document.removeEventListener("keydown", hidePopover, false);
 		};
-	}, []);
+	}, [hidePopover]);
 
 
 	return (

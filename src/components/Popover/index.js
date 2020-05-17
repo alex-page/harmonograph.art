@@ -6,10 +6,10 @@ import style from './style.css';
 const Popover = ({hidePopover, leftOffset = '0', children}) => {
 
 	useEffect(() => {
-		document.addEventListener("keydown", hidePopover, false);
+		document.addEventListener("keydown", hidePopover, {passive: true});
 
 		return () => {
-			document.removeEventListener("keydown", hidePopover, false);
+			document.removeEventListener("keydown", hidePopover, {passive: true});
 		};
 	}, [hidePopover]);
 

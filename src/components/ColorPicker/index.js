@@ -98,9 +98,9 @@ const ColorPicker = ({
 
 	useEffect(() => {
 		updateRect();
-		window.addEventListener("resize", updateRect, false);
+		window.addEventListener("resize", updateRect, {passive: true});
 		return () => {
-			window.removeEventListener("resize", updateRect, false);
+			window.removeEventListener("resize", updateRect, {passive: true});
 		};
 	}, [colorPicker]);
 

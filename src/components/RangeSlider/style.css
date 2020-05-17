@@ -1,6 +1,5 @@
 .RangeSlider {
-	-webkit-appearance: none;
-	-moz-appearance: none;
+	appearance: none;
 
 	height: 0.5rem;
 	width: 100%;

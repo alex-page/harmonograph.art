@@ -94,7 +94,7 @@ const Page = ({
 
 	// Draw the harmonograph every second
 	useInterval(() => {
-		if (strokePercentage === '60') {
+		if (strokePercentage === '100') {
 			setIsDrawing(false);
 			return;
 		}
@@ -117,13 +117,15 @@ const Page = ({
 							label="Stroke color"
 							id="strokeColor"
 							popoverOpen={false}
-							defaultValue={strokeColor}
+							color={strokeColor}
+							setColor={setStrokeColor}
 						/>
 						<ColorInput
 							label="Background color"
 							id="backgroundColor"
 							popoverOpen={false}
-							defaultValue={backgroundColor}
+							color={backgroundColor}
+							setColor={setBackgroundColor}
 						/>
 						<RangeSlider
 							label="Stroke width"

@@ -46,6 +46,7 @@
 	},
 	"dependencies": {
 		"@harmonograph/svg": "^0.2.0",
+		"color-string": "^1.5.3",
 		"preact": "^10.3.2",
 		"preact-render-to-string": "^5.1.4",
 		"preact-router": "^3.2.1",

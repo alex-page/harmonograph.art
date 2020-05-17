@@ -1,44 +1,50 @@
 import {h} from 'preact';
-import { useState } from 'preact/hooks';
-// import {ChromePicker} from 'react-color';
+import {useState} from 'preact/hooks';
 
 import style from './style.css';
 
 import Label from '../Label';
 import Popover from '../Popover';
 import VisuallyHidden from '../VisuallyHidden';
+import ColorPicker from '../ColorPicker';
 
-const ColorInput = ({id, label, defaultValue}) => {
+const ColorInput = ({id, label, color, setColor}) => {
 	const [showPicker, setShowPicker] = useState(false);
 
 	return (
 		<div className={style.ColorInput}>
 			<Label id={id}>{label}</Label>
 			<button
-				className={style.Swatch}
-				style={{backgroundColor: defaultValue}}
+				className={style.SwatchButton}
 				id={`swatch-${id}`}
 				type="button"
 				onClick={() => setShowPicker(true)}
 				onTouchStart={() => setShowPicker(true)}
 			>
 				<VisuallyHidden>Open swatch</VisuallyHidden>
+				<span className={style.Swatch} style={{backgroundColor: color}}></span>
 			</button>
 			<input
 				className={style.Input}
-				readOnly
 				type="text"
 				id={id}
-				value={defaultValue}
-				onClick={() => setShowPicker(true)}
-				onTouchStart={() => setShowPicker(true)}
+				value={color}
+				onChange={event => setColor(event.target.value)}
 			/>
-			<Popover
-				isVisible={showPicker}
-				hidePopover={() => setShowPicker(false)}
-			>
-				<p>Content</p>
-			</Popover>
+			{
+				showPicker && (
+				<Popover
+					hidePopover={() => setShowPicker(false)}
+				>
+					<ColorPicker
+						color={color}
+						setColor={setColor}
+						id={id}
+					/>
+				</Popover>
+				)
+			}
+			
 		</div>
 	);
 };

@@ -1,15 +1,29 @@
 import {h} from 'preact';
+import {useEffect} from 'preact/hooks';
 
 import style from './style.css';
 
-const Popover = ({hidePopover, isVisible, children}) => {
+const Popover = ({hidePopover, leftOffset = '0', children}) => {
+
+	useEffect(() => {
+		document.addEventListener("keydown", hidePopover, false);
+
+		return () => {
+			document.removeEventListener("keydown", hidePopover, false);
+		};
+	}, []);
+
+
 	return (
-		<div style={{display: isVisible ? 'block' : 'none'}}>
+		<div>
 			<div
 				className={style.PopoverOverlay}
-				onClick={() => hidePopover()}
-				onTouchStart={() => hidePopover()} />
-			<div className={style.PopoverContent}>
+				onClick={hidePopover}
+				onTouchStart={hidePopover} />
+			<div
+				className={style.PopoverContent}
+				style={{left: leftOffset}}
+			>
 				{children}
 			</div>
 		</div>

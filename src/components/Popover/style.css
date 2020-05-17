@@ -6,9 +6,15 @@
 	bottom: 0;
 	z-index: 1;
 }
+
 .PopoverContent {
 	position: absolute;
-	left: 3rem;
+	left: 0;
+	border-radius: 0.25rem;
 	top: calc(100% + 0.5rem);
+	right: 0;
 	z-index: 10;
+
+	padding: 0.5rem;
+	background-color: var(--background-color);
 }

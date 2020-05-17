@@ -9,6 +9,7 @@
 
 .PopoverContent {
 	position: absolute;
+	box-shadow: 0 0 5px 0px var(--frame-background-color);;
 	left: 0;
 	border-radius: 0.25rem;
 	top: calc(100% + 0.5rem);

@@ -6,3 +6,4 @@ node_modules
 package-lock.json
 .vercel
 .DS_STORE
+size-plugin.json

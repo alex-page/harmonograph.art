@@ -60,7 +60,6 @@ const Page = ({
 	
 		if(navigator.share){
 			navigator.share({ title: pkg.name, text: pkg.description, url});
-			return;
 		}
 		else {
 			clipboard.copy(url);

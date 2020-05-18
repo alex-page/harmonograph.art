@@ -2,6 +2,7 @@ import {h, createRef, Fragment} from 'preact';
 import {useState, useEffect} from 'preact/hooks';
 import {useClipboard} from 'use-clipboard-copy';
 import {harmonographBezierPath} from '@harmonograph/svg';
+import {route} from 'preact-router';
 
 import pkg from '../../../package.json';
 import getPendulums from '../../scripts/getPendulums';
@@ -83,6 +84,10 @@ const Page = ({
 	};
 
 	const randomHarmonograph = () => {
+		if (window.location.pathname !== '/') {
+			route('/');
+		}
+
 		const newPendulums = getPendulums();
 		const path = harmonographBezierPath(300, 700, newPendulums);
 		setPendulums(newPendulums);
@@ -105,8 +110,7 @@ const Page = ({
 
 	useEffect(() => {
 		const newPathLength = harmonographSVGRef.current.firstElementChild.getTotalLength();
-		if(newPathLength && pathLength !== newPathLength) {
-			console.log('ran');
+		if(pathLength !== newPathLength) {
 			setPathLength(newPathLength);
 		}
 	}, [harmonographSVGRef, pathLength]);

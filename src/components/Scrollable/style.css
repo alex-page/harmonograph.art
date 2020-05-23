@@ -1,4 +1,4 @@
 .Scrollable {
-	overflow-x: auto;
+	overflow-y: auto;
 	flex: 1;
 }

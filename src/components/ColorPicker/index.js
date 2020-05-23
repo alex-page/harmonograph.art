@@ -1,166 +1,121 @@
 import {h} from 'preact';
-import {useState, useEffect, useRef} from 'preact/hooks';
+import {useState, useEffect, useRef, useLayoutEffect} from 'preact/hooks';
 import colorString from 'color-string';
+import {HSVAtoHEX, RGBAtoHSVA} from '../../utils/color';
 
 import Label from '../Label';
 import VisuallyHidden from '../VisuallyHidden';
 
 import style from './style.css';
 
-
-const RGBtoHSVA = ([r,g,b,a]) => {
-	const max = Math.max(r, g, b);
-	const min = Math.min(r, g, b);
-	
-	const d = max - min;
-	const s = (max === 0 ? 0 : d / max);
-	const v = max / 255;
-	
-	let h;
-
-	switch (max) {
-		case min: h = 0; break;
-		case r: h = (g - b) + d * (g < b ? 6: 0); h /= 6 * d; break;
-		case g: h = (b - r) + d * 2; h /= 6 * d; break;
-		case b: h = (r - g) + d * 4; h /= 6 * d; break;
-	}
-
-	h = Math.round(h * 360);
-
-	return [h,s,v,a];
-}
-
-const HSVtoHEX = ([h,s,v,a]) => {
-	let r;
-	let g;
-	let b;
-
-	h = h / 360;
-
-  let i = Math.floor(h * 6);
-  let f = h * 6 - i;
-  let p = v * (1 - s);
-  let q = v * (1 - f * s);
-  let t = v * (1 - (1 - f) * s);
-
-  switch (i % 6) {
-    case 0: r = v, g = t, b = p; break;
-    case 1: r = q, g = v, b = p; break;
-    case 2: r = p, g = v, b = t; break;
-    case 3: r = p, g = q, b = v; break;
-    case 4: r = t, g = p, b = v; break;
-    case 5: r = v, g = p, b = q; break;
-	}
-
-	const rgba = [
-		Math.round(r * 255),
-		Math.round(g * 255),
-		Math.round(b * 255),
-		a
-	];
-
-	return colorString.to.hex(rgba);
-}
-
 const ColorPicker = ({
 	color: inputColor,
 	setColor: setInputColor,
 	id
 }) => {
+	const node = useRef();
 	const [color, setColor] = useState('');
 	const [hue, setHue] = useState(0);
 	const [alpha, setAlpha] = useState(1);
+	const [dimensions, setDimensions] = useState({});
+	const [position, setPosition] = useState({x: null, y: null});
+	const [isInteractive, setIsInteractive] = useState(false);
 
-	const [x, setX] = useState(0);
-	const [y, setY] = useState(0);
+	// Measure the color picker and adjust dimensions
+	useLayoutEffect(() => {
+		if(!node.current) return;
 
-	const [width, setWidth] = useState(0);
-	const [height, setHeight] = useState(0);
-	const [leftOffset, setLeftOffset] = useState(0);
-	const [topOffset, setTopOffset] = useState(0);
-	const [interactive, setInteractive] = useState(false);
+		const measure = () => window.requestAnimationFrame(() => {
+			const {top, left, width, height} = node.current.getBoundingClientRect();
+			setDimensions({width, height, top, left});
+		});
 
-	const colorPicker = useRef();
+		measure();
 
-	useEffect(() => {
-		const validColor = colorString.get(inputColor.toLowerCase());
-		const [h,s,v,a] = RGBtoHSVA(validColor.value);
-		if(inputColor !== color && validColor){
-			setColor(inputColor);
-			setHue(h);
-			setAlpha(a);
-		}
-		if(validColor && width !== 0 && height !== 0) {
-			setX(s * width);
-			setY(height - (v * height));
-		}
-	}, [color, inputColor, width, height]);
+		window.addEventListener("resize", measure);
+		// window.addEventListener("scroll", measure);
 
-	useEffect(() => {
-		updateRect();
-		window.addEventListener("resize", updateRect, {passive: true});
 		return () => {
-			window.removeEventListener("resize", updateRect, {passive: true});
+			window.removeEventListener("resize", measure);
+			// window.removeEventListener("scroll", measure);
 		};
-	}, [colorPicker]);
+	}, [node.current]);
 
-	const updateRect = () => {
-		const colorPickerPosition = colorPicker.current.getBoundingClientRect();
-		setWidth(colorPickerPosition.width);
-		setHeight(colorPickerPosition.height);
-		setLeftOffset(colorPickerPosition.left);
-		setTopOffset(colorPickerPosition.top);
-	}
+	// Add event listeners, set as interactive update XY position
+	useEffect(() => {
+		if(!node.current) return;
+
+		const updateXY = event => {
+			if(!isInteractive) return;
+			let newX = event.clientX - dimensions.left;
+			let newY = event.clientY - dimensions.top;
+	
+			if(newX < 0) newX = 0;
+			else if(newX > dimensions.width) newX = dimensions.width;
+	
+			if(newY < 0) newY = 0;
+			else if(newY > dimensions.height) newY = dimensions.height;
+
+			setPosition({x: newX, y: newY});
+		};
+
+		const setInteractiveTrue = () => setIsInteractive(true);
+		const setInteractiveFalse = () => setIsInteractive(false);
+
+		node.current.addEventListener("mousedown", setInteractiveTrue, {passive: true});
+		node.current.addEventListener("mousemove", updateXY, {passive: true});
+		node.current.addEventListener("mouseup", setInteractiveFalse, {passive: true});
+
+		return () => {
+			node.current.removeEventListener("mousedown", setInteractiveTrue);
+			node.current.removeEventListener("mousemove", updateXY);
+			node.current.removeEventListener("mouseup", setInteractiveFalse);
+		};
+	}, [node.current, dimensions, isInteractive]);
 
 	const updateColor = (h, x, y, a) => {
-		const newHSVA = [h, x / width, 1 - y / height, a];
-		const hex = HSVtoHEX(newHSVA);
+		const newHSVA = [h, x / dimensions.width, 1 - y / dimensions.height, a];
+		const hex = HSVAtoHEX(newHSVA);
 		setColor(hex);
 		setInputColor(hex);
-	}
-
-	const handleMovement = (event) => {
-		if(!interactive || width === 0 || height === 0) return;
-
-		let newX = event.clientX - leftOffset;
-		let newY = event.clientY - topOffset;
-
-		if(newX < 0) newX = 0;
-		else if(newX > width) newX = width;
-
-		if(newY < 0) newY = 0;
-		else if(newY > height) newY = height;
-
-		setX(newX);
-		setY(newY);
-
-		updateColor(hue, newX, newY, alpha);
 	}
 
 	const handleHue = (event) => {
 		const newHue = event.target.value;
 		setHue(newHue);
-		updateColor(newHue, x, y, alpha);
+		updateColor(newHue, position.x, position.y, alpha);
 	}
 
 	const handleAlpha = (event) => {
 		const newAlpha = event.target.value;
 		setAlpha(newAlpha);
-		updateColor(hue, x, y, newAlpha);
+		updateColor(hue, position.x, position.y, newAlpha);
 	}
+
+	// Change the color when the inputted color changes
+	useEffect(() => {
+		const colorStringData = colorString.get(inputColor.toLowerCase());
+		const validColor = colorStringData && colorStringData.value || [255,255,255,1];
+		const [h,s,v,a] = RGBAtoHSVA(validColor);
+		const {width, height} = node.current.getBoundingClientRect();
+		if(inputColor !== color && validColor){
+			setColor(inputColor);
+			setHue(h);
+			setAlpha(a);
+			setPosition({x: width * s, y: height - (v * height)});
+		}
+	}, [inputColor]);
+
+	// Update the color when the X and Y value changes
+	useEffect(() => {
+		if(position.x && position.y){
+			updateColor(hue, position.x, position.y, alpha);
+		}
+	}, [position]);
 
 	return (
 		<div>
-			<div
-				ref={colorPicker}
-				onMouseDown={() => setInteractive(true)}
-				onMouseUp={() => setInteractive(false)}
-				onTouchStart={() => setInteractive(true)}
-				onTouchEnd={() => setInteractive(false)}
-				onTouchMove={handleMovement}
-				onMouseMove={handleMovement}
-				className={style.ColorPicker}
-			>
+			<div ref={node} className={style.ColorPicker}>
 				<div className={style.Hue} style={{
 					backgroundColor: `hsl(${hue}, 100%, 50%)`,
 					opacity: alpha,
@@ -171,7 +126,7 @@ const ColorPicker = ({
 				</div>
 				<div
 					className={style.CurrentColor}
-					style={{transform: `translate(${x}px, ${y}px)`}}
+					style={{transform: `translate(${position.x}px, ${position.y}px)`}}
 				/>
 			</div>
 			<VisuallyHidden>

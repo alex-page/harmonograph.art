@@ -11,10 +11,10 @@ describe('children', () => {
 });
 
 describe('hidePopover()', () => {
-	test('click event triggers function', () => {
+	test('click event does not propogate', () => {
 		const onClickSpy = jest.fn();
 		const context = shallow(<Popover hidePopover={onClickSpy}>Hello world</Popover>);
-		context.find('.PopoverOverlay').simulate('click');
-		expect(onClickSpy).toHaveBeenCalledTimes(1);
+		context.simulate('click');
+		expect(onClickSpy).toHaveBeenCalledTimes(0);
 	});
 });

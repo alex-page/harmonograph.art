@@ -46,9 +46,12 @@ const ColorPicker = ({
 		if(!node.current) return;
 
 		const updateXY = event => {
+			console.log('yo')
 			if(!isInteractive) return;
-			let newX = event.clientX - dimensions.left;
-			let newY = event.clientY - dimensions.top;
+			const eventX = event.clientX || event.touches[0].clientX;
+			const eventY = event.clientY || event.touches[0].clientY;
+			let newX = eventX - dimensions.left;
+			let newY = eventY - dimensions.top;
 	
 			if(newX < 0) newX = 0;
 			else if(newX > dimensions.width) newX = dimensions.width;
@@ -62,11 +65,17 @@ const ColorPicker = ({
 		const setInteractiveTrue = () => setIsInteractive(true);
 		const setInteractiveFalse = () => setIsInteractive(false);
 
+		node.current.addEventListener("touchstart", setInteractiveTrue, {passive: true});
+		node.current.addEventListener("touchmove", updateXY, {passive: true});
+		node.current.addEventListener("touchend", setInteractiveFalse, {passive: true});
 		node.current.addEventListener("mousedown", setInteractiveTrue, {passive: true});
 		node.current.addEventListener("mousemove", updateXY, {passive: true});
 		node.current.addEventListener("mouseup", setInteractiveFalse, {passive: true});
 
 		return () => {
+			node.current.removeEventListener("touchstart", setInteractiveTrue);
+			node.current.removeEventListener("touchmove", updateXY);
+			node.current.removeEventListener("touchend", setInteractiveFalse);
 			node.current.removeEventListener("mousedown", setInteractiveTrue);
 			node.current.removeEventListener("mousemove", updateXY);
 			node.current.removeEventListener("mouseup", setInteractiveFalse);

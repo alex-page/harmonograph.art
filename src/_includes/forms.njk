@@ -1,0 +1,95 @@
+{% macro colorpicker(id) %}
+<div
+	x-cloak
+	class="color-picker"
+	x-show="{{id}}Picker.open"
+	x-on:keydown.escape="{{id}}Picker.open = false; {{id}}Picker.interactive = false"
+	x-on:mousedown.away="{{id}}Picker.open = false; {{id}}Picker.interactive = false"
+	x-on:touchend.away="{{id}}Picker.open = false; {{id}}Picker.interactive = false"
+>
+	<div
+		class="color-swatch transparent-bg"
+		x-ref="{{id}}Swatch"
+		@mousedown="{{id}}Picker.interactive = true"
+		@mousemove.window="{{id}}Picker.interactive && updateXY($event, '{{id}}')"
+		@mouseup.window="{{id}}Picker.interactive = false"
+		@touchstart="{{id}}Picker.interactive = true"
+		@touchmove.window="{{id}}Picker.interactive && updateXY($event, '{{id}}')"
+		@touchend.window="{{id}}Picker.interactive = false"
+	>
+		<div :style="`
+			background-color: hsl(${ {{id}}Picker.hue }, 100%, 50%);
+			opacity:${ {{id}}Picker.alpha };
+			will-change: background-color;
+	`">
+			<div class="white-gradient">
+				<div class="black-gradient"></div>
+			</div>
+		</div>
+		<span
+			class="color-location"
+			:style="`transform: translate(${ {{id}}Picker.x }px, ${ {{id}}Picker.y }px)`"
+		></span>
+	</div>
+	<span class="sr-only">
+		<label for="{{id}}Hue">Hue</label>
+	</span>
+	<input
+		id="{{id}}Hue"
+		class="hue"
+		@input="{updateHue($event.target.value, '{{id}}')}"
+		type="range"
+		min="0"
+		max="360"
+		step="0.1"
+		:value="{{id}}Picker.hue"
+	>
+	<span class="sr-only">
+		<label for="{{id}}Alpha">Alpha</label>
+	</span>
+	<input
+		id="{{id}}Alpha"
+		class="alpha"
+		@input="{updateAlpha($event.target.value, '{{id}}')}"
+		type="range"
+		min="0"
+		max="1"
+		step="0.01"
+		:value="{{id}}Picker.alpha"
+		:style="`background-image: linear-gradient(to right, rgba(0,0,0,0) 5%, ${ {{id}}.substring(0, 7)} 100%), url('data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%202%202%22%3E%3Cpath%20d%3D%22M1%202V0h1v1H0v1z%22%20fill-opacity%3D%22.05%22%2F%3E%3C%2Fsvg%3E')`"
+	>
+</div>
+{% endmacro %}
+
+{% macro colorinput(id, label) %}
+<label for="{{id}}">{{label}}</label>
+<div class="color-input">
+	<button
+		class="color-picker-activator transparent-bg"
+		@click="{{id}}Picker.open = true"
+	>
+		<span class="swatch" :style="`background-color: ${ {{id}} }`"></span>
+		<span class="sr-only">Pick a color</span>
+	</button>
+	<input
+		id="{{id}}"
+		type="text"
+		x-model="{{id}}Input"
+		@input="updateColor('{{id}}')"
+	>
+	{{colorpicker(id)}}
+</div>
+{% endmacro %}
+
+{% macro rangeslider(id, label, min, max, step) %}
+<label for="{{id}}">{{label}} <span x-text="{{id}}"></span></label>
+<input
+	id="{{id}}"
+	@input="{{id}} = Number($event.target.value)"
+	x-model="Number({{id}})"
+	type="range"
+	min="{{min}}"
+	max="{{max}}"
+	step="{{step}}"
+>
+{% endmacro %}

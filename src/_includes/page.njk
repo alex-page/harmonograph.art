@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	{% include 'meta.njk' %}
+	<title>{{pkg.name}} - v{{pkg.version}}</title>
+	{% set css %}{% include 'css/style.css' %}{% endset %}
+	<style>{{css | cssmin | safe}}</style>
+	<script>document.documentElement.classList.add('js')</script>
+</head>
+<body>
+	<a class="skip-link sr-only" href="#content">Skip to content</a>
+
+	<!-- Navigation -->
+	{% include 'navigation.njk' %}
+
+	<!-- The main content area -->
+	<main
+		id="content"
+		x-data="getInitialData()"
+		x-init="{
+			...setUpColorPicker('strokeColor'),
+			...setUpColorPicker('backgroundColor'),
+			...playPathAnimation(),
+		}"
+		x-on:resize.window.debounce="{
+			...setUpColorPicker('strokeColor'),
+			...setUpColorPicker('backgroundColor')
+		}"
+	>
+		<div class="app-container">
+			<svg
+				x-ref="svg"
+				:style="`background-color: ${backgroundColor}`"
+				viewBox="0 0 700 700"
+				xmlns="http://www.w3.org/2000/svg"
+			>
+				<path
+					:stroke="strokeColor"
+					:stroke-width="strokeWidth"
+					:d="path"
+					:style="`
+						stroke-dasharray: 1;
+						stroke-dashoffset: 0;
+						will-change: stroke-dashoffset;
+					`"
+					x-transition:enter="stroke-dashoffset 60s linear"
+					fill="none"
+					pathLength="1"
+					stroke-linecap="round"
+				>
+				</path>
+			</svg>
+			<noscript>
+				<p>The application requires JavaScript to work 💔.</p>
+				<img src="https://api.harmonograph.art/28a745" alt="A randomised harmonograph">
+			</noscript>
+		</div>
+
+		<!-- Sidebar -->
+		<aside>
+			<div class="aside-content">
+				<div class="aside-section">
+					{{content | safe}}
+					<button @click="randomise" class="secondary rotate-icon">
+						{% include 'icons/random.njk' %} Randomise harmonograph
+					</button>
+				</div>
+				<div class="aside-section">
+					{% import "forms.njk" as forms %}
+					{{ forms.colorinput('strokeColor', 'Stroke color') }}
+					{{ forms.colorinput('backgroundColor', 'Background color') }}
+					{{ forms.rangeslider('strokeWidth', 'Stroke width', 0.25, 10, 0.25) }}
+					{{ forms.rangeslider('drawTime', 'draw time', 0, 100, 0.1) }}
+					<button class="secondary">Hello</button>
+				</div>
+			</div>
+			<p class="aside-footer">
+				<button
+					@click="isCopying = !navigator.share; share($refs.shareButton)"
+					@click.debounce.1000="isCopying = false"
+					x-show="!isCopying"
+				>
+					{% include 'icons/share.njk' %} Share
+				</button>
+				<button x-cloak x-show="isCopying">
+					{% include 'icons/success.njk' %} Copied
+				</button>
+				<button @click="download">
+					{% include 'icons/download.njk' %} Download
+				</button>
+			</p>
+		</aside>
+	</main>
+	<script>
+		{% jsBundle %}
+	</script>
+</body>
+</html>

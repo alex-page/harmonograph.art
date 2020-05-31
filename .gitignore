@@ -1,9 +1,0 @@
-node_modules
-/build
-/*.log
-*.lock
-
-package-lock.json
-.vercel
-.DS_STORE
-size-plugin.json

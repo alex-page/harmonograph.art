@@ -1,0 +1,12 @@
+<nav>
+	<ul>
+		{%- for menuItem in menu -%}
+		<li>
+			<a href="{{menuItem.url | safe}}" title="{{ menuItem.text }}">
+				<span class="nav-icon">{{menuItem.icon | safe}}</span>
+				<span class="sr-only">{{ menuItem.text }}</span>
+			</a>
+		</li>
+		{%- endfor -%}
+	</ul>
+</nav>

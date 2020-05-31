@@ -1,21 +1,12 @@
 {
+	"private": true,
 	"name": "harmonograph.art",
 	"version": "0.0.0",
-	"private": true,
 	"description": "Draw, download and share a randomised harmonograph.",
-	"scripts": {
-		"build": "preact build",
-		"build:size": "preact build --analyze",
-		"serve": "sirv build --cors --single",
-		"dev": "preact watch",
-		"lint": "eslint src",
-		"lint:fix": "eslint src --fix",
-		"test": "jest"
-	},
 	"author": {
 		"name": "Alex Page",
 		"email": "alex@alexpage.com.au",
-		"url": "https://alexpage.com.au/",
+		"url": "http://alexpage.com.au/",
 		"twitter": "https://twitter.com/aalexpaage/"
 	},
 	"contributors": [
@@ -25,46 +16,43 @@
 			"url": "http://alexpage.com.au"
 		}
 	],
+	"scripts": {
+		"test": "xo && npm run test:content && npm run test:scripts",
+		"test:content": "write-good *.md",
+		"test:scripts": "xo",
+		"build": "eleventy",
+		"watch": "eleventy --serve"
+	},
+	"engines": {
+		"node": "10"
+	},
 	"repository": {
 		"type": "git",
-		"url": "git+https://github.com/alex-page/harmonograph.art"
+		"url": "git+https://github.com/alex-page/app-template"
 	},
 	"license": "MIT",
 	"bugs": {
-		"url": "https://github.com/alex-page/harmonograph.art/issues"
+		"url": "https://github.com/alex-page/app-template/issues"
 	},
-	"homepage": "https://github.com/alex-page/harmonograph.art#readme",
-	"devDependencies": {
-		"copy-webpack-plugin": "^6.0.1",
-		"enzyme": "^3.10.0",
-		"enzyme-adapter-preact-pure": "^2.0.0",
-		"eslint": "^6.0.1",
-		"eslint-config-preact": "^1.1.0",
-		"identity-obj-proxy": "^3.0.0",
-		"jest": "^24.9.0",
-		"jest-preset-preact": "^1.0.0",
-		"preact-cli": "^3.0.0-rc.6",
-		"preact-render-spy": "^1.2.1",
-		"sirv-cli": "^0.4.5"
-	},
+	"homepage": "https://github.com/alex-page/app-template#readme",
 	"dependencies": {
+		"@11ty/eleventy": "^0.11.0-beta.2",
 		"@harmonograph/svg": "^0.2.0",
+		"@rollup/plugin-commonjs": "^11.0.2",
+		"@rollup/plugin-node-resolve": "^7.1.1",
+		"alpinejs": "^2.3.5",
+		"clean-css": "^4.2.3",
 		"color-string": "^1.5.3",
-		"preact": "^10.3.2",
-		"preact-render-to-string": "^5.1.4",
-		"preact-router": "^3.2.1",
-		"use-clipboard-copy": "^0.1.2"
+		"html-minifier": "^4.0.0",
+		"rollup": "^2.2.0",
+		"rollup-plugin-terser": "^5.3.0",
+		"workbox-build": "^5.0.0"
 	},
-	"jest": {
-		"preset": "jest-preset-preact",
-		"setupFiles": [
-			"<rootDir>/tests/setupTests.js"
-		]
+	"devDependencies": {
+		"write-good": "^1.0.2",
+		"xo": "^0.30.0"
 	},
-	"eslintConfig": {
-		"extends": "preact",
-		"ignorePatterns": [
-			"build/"
-		]
+	"xo": {
+		"env": "browser"
 	}
 }

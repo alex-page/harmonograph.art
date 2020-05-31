@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	{% include 'meta.njk' %}
+	<title>{{pkg.name}} - v{{pkg.version}}</title>
+	{% set css %}{% include 'css/style.css' %}{% endset %}
+	<style>{{css | cssmin | safe}}</style>
+	<script>document.documentElement.classList.add('js')</script>
+</head>
+<body>
+	<a class="skip-link sr-only" href="#content">Skip to content</a>
+
+	<!-- Navigation -->
+	{% include 'navigation.njk' %}
+
+	<!-- The main content area -->
+	<main
+		id="content"
+		x-data="getInitialData()"
+		x-init="{
+			...setUpColorPicker('strokeColor'),
+			...setUpColorPicker('backgroundColor'),
+			...startPathAnimation(),
+		}"
+		x-on:resize.window.debounce="{
+			...setUpColorPicker('strokeColor'),
+			...setUpColorPicker('backgroundColor')
+		}"
+	>
+		<div class="app-container">
+			<svg
+				x-ref="svg"
+				:style="`background-color: ${backgroundColor}`"
+				viewBox="0 0 700 700"
+				xmlns="http://www.w3.org/2000/svg"
+			>
+				<path
+					:stroke="strokeColor"
+					:stroke-width="strokeWidth"
+					:d="path"
+					fill="none"
+					pathLength="100"
+					stroke-linecap="round"
+					:style="`
+						stroke-dasharray: 100;
+						stroke-dashoffset: ${100 - drawTime};
+						transition: ${isDrawing && drawTime > 0 ? 'stroke-dashoffset 1s linear' : 'none'};
+						will-change: stroke-dashoffset;
+					`"
+				>
+				</path>
+			</svg>
+			<noscript>
+				<p>The application requires JavaScript to work 💔.</p>
+				<img src="https://api.harmonograph.art/28a745" alt="A randomised harmonograph">
+			</noscript>
+		</div>
+
+		<!-- Sidebar -->
+		<aside>
+			<div class="aside-content">
+				<div class="aside-section">
+					{{content | safe}}
+					<button @click="randomise" class="secondary rotate-icon">
+						{% include 'icons/random.njk' %} Randomise harmonograph
+					</button>
+				</div>
+				<div class="aside-section">
+					{% import "forms.njk" as forms %}
+					{{ forms.colorinput('strokeColor', 'Stroke color') }}
+					{{ forms.colorinput('backgroundColor', 'Background color') }}
+					{{ forms.rangeslider('strokeWidth', 'Stroke width', 0.25, 10, 0.25) }}
+					{{ forms.rangeslider('drawTime', 'Draw time', 0, 100, 1) }}
+					<span x-text="isDrawing.toString()"></span>
+					<button
+						class="secondary"
+						x-show="!isDrawing && drawTime >= 100"
+						@click="resetPathAnimation()"
+					>
+						{% include 'icons/replay.njk' %}
+						Replay
+					</button>
+					<button
+						class="secondary"
+						x-show="isDrawing"
+						@click="pausePathAnimation()"
+					>
+						{% include 'icons/pause.njk' %}
+						Pause
+					</button>
+					<button
+						class="secondary"
+						x-show="!isDrawing && drawTime < 100"
+						@click="startPathAnimation()"
+					>
+						{% include 'icons/play.njk' %}
+						Play
+					</button>
+				</div>
+			</div>
+			<p class="aside-footer">
+				<button
+					@click="isCopying = !navigator.share; share($refs.shareButton)"
+					@click.debounce.1000="isCopying = false"
+					x-show="!isCopying"
+				>
+					{% include 'icons/share.njk' %} Share
+				</button>
+				<button x-cloak x-show="isCopying">
+					{% include 'icons/success.njk' %} Copied
+				</button>
+				<button @click="download">
+					{% include 'icons/download.njk' %} Download
+				</button>
+			</p>
+		</aside>
+	</main>
+	<script>
+		{% jsBundle %}
+	</script>
+</body>
+</html>

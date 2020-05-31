@@ -20,7 +20,7 @@
 		x-init="{
 			...setUpColorPicker('strokeColor'),
 			...setUpColorPicker('backgroundColor'),
-			...playPathAnimation(),
+			...startPathAnimation(),
 		}"
 		x-on:resize.window.debounce="{
 			...setUpColorPicker('strokeColor'),
@@ -38,15 +38,15 @@
 					:stroke="strokeColor"
 					:stroke-width="strokeWidth"
 					:d="path"
+					fill="none"
+					pathLength="100"
+					stroke-linecap="round"
 					:style="`
-						stroke-dasharray: 1;
-						stroke-dashoffset: 0;
+						stroke-dasharray: 100;
+						stroke-dashoffset: ${100 - drawTime};
+						transition: ${isDrawing && drawTime > 0 ? 'stroke-dashoffset 1s linear' : 'none'};
 						will-change: stroke-dashoffset;
 					`"
-					x-transition:enter="stroke-dashoffset 60s linear"
-					fill="none"
-					pathLength="1"
-					stroke-linecap="round"
 				>
 				</path>
 			</svg>
@@ -70,8 +70,32 @@
 					{{ forms.colorinput('strokeColor', 'Stroke color') }}
 					{{ forms.colorinput('backgroundColor', 'Background color') }}
 					{{ forms.rangeslider('strokeWidth', 'Stroke width', 0.25, 10, 0.25) }}
-					{{ forms.rangeslider('drawTime', 'draw time', 0, 100, 0.1) }}
-					<button class="secondary">Hello</button>
+					{{ forms.rangeslider('drawTime', 'Draw time', 0, 100, 1) }}
+					<span x-text="isDrawing.toString()"></span>
+					<button
+						class="secondary"
+						x-show="!isDrawing && drawTime >= 100"
+						@click="resetPathAnimation()"
+					>
+						{% include 'icons/replay.njk' %}
+						Replay
+					</button>
+					<button
+						class="secondary"
+						x-show="isDrawing"
+						@click="pausePathAnimation()"
+					>
+						{% include 'icons/pause.njk' %}
+						Pause
+					</button>
+					<button
+						class="secondary"
+						x-show="!isDrawing && drawTime < 100"
+						@click="startPathAnimation()"
+					>
+						{% include 'icons/play.njk' %}
+						Play
+					</button>
 				</div>
 			</div>
 			<p class="aside-footer">

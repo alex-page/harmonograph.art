@@ -86,7 +86,7 @@
 <input
 	id="{{id}}"
 	@input="{{id}} = Number($event.target.value)"
-	x-model="Number({{id}})"
+	:value="Number({{id}})"
 	type="range"
 	min="{{min}}"
 	max="{{max}}"

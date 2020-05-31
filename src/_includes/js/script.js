@@ -20,13 +20,14 @@ window.getInitialData = () => {
 	return {
 		strokeWidth: 1,
 		drawTime: 0,
+		drawTimeInterval: null,
+		isDrawing: false,
 		backgroundColor,
 		backgroundColorInput: backgroundColor,
 		strokeColor,
 		strokeColorInput: strokeColor,
 		path: harmonographBezierPath(300, 700, pendulums),
 		pendulums,
-		isDrawing: true,
 		isCopying: false,
 		backgroundColorPicker: {
 			x: 0,
@@ -48,7 +49,12 @@ window.getInitialData = () => {
 		},
 
 		randomise() {
-			location.reload(); // Simple randomise for now
+			const pendulums = getPendulums();
+			this.path = harmonographBezierPath(300, 700, pendulums);
+			this.pendulums = pendulums;
+			this.backgroundColor = getRandomColor();
+			this.strokeColor = getRandomColor();
+			this.isDrawing = false;
 		},
 
 		download() {
@@ -59,6 +65,7 @@ window.getInitialData = () => {
 			path.removeAttribute(':stroke');
 			path.removeAttribute(':stroke-width');
 			path.removeAttribute(':d');
+			path.removeAttribute(':style');
 
 			const harmonographBlob = new Blob(
 				[harmonographSVG.outerHTML],
@@ -96,17 +103,26 @@ window.getInitialData = () => {
 			}
 		},
 
-		playPathAnimation() {
-			const increaseDrawTime = setInterval(() => {
-				if (this.drawTime >= 100) {
-					this.isDrawing = false;
-					this.drawTime = 100;
-					clearInterval(increaseDrawTime);
-					return;
-				}
-
+		startPathAnimation() {
+			this.isDrawing = true;
+			this.drawTimeInterval = setInterval(() => {
 				this.drawTime += 1;
+				if (this.drawTime >= 100) {
+					this.pausePathAnimation();
+				}
 			}, 1000);
+		},
+
+		pausePathAnimation() {
+			if (this.drawTimeInterval) {
+				this.isDrawing = false;
+				clearInterval(this.drawTimeInterval);
+			}
+		},
+
+		resetPathAnimation() {
+			this.drawTime = 0;
+			this.startPathAnimation();
 		},
 
 		updateHue(hue, key) {

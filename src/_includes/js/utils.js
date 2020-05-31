@@ -35,12 +35,20 @@ export const rgbaToHsva = ([r, g, b, a]) => {
 	switch (max) {
 		case min: h = 0;
 			break;
-		case r: h = (g - b) + d * (g < b ? 6 : 0); h /= 6 * d;
+		case r:
+			h = (g - b) + (d * (g < b ? 6 : 0));
+			h /= 6 * d;
 			break;
-		case g: h = (b - r) + d * 2; h /= 6 * d;
+		case g:
+			h = (b - r) + (d * 2);
+			h /= 6 * d;
 			break;
-		case b: h = (r - g) + d * 4; h /= 6 * d;
+		case b:
+			h = (r - g) + (d * 4);
+			h /= 6 * d;
 			break;
+		default:
+			console.error('problem with rgbaToHsva color conversion');
 	}
 
 	h = Math.round(h * 360);
@@ -56,24 +64,45 @@ export const hsvaToHex = ([h, s, v, a]) => {
 	h /= 360;
 
 	const i = Math.floor(h * 6);
-	const f = h * 6 - i;
+	const f = (h * 6) - i;
 	const p = v * (1 - s);
-	const q = v * (1 - f * s);
-	const t = v * (1 - (1 - f) * s);
+	const q = v * (1 - (f * s));
+	const t = v * (1 - ((1 - f) * s));
 
+	/*  */
 	switch (i % 6) {
-		case 0: r = v, g = t, b = p;
+		case 0:
+			r = v;
+			g = t;
+			b = p;
 			break;
-		case 1: r = q, g = v, b = p;
+		case 1:
+			r = q;
+			g = v;
+			b = p;
 			break;
-		case 2: r = p, g = v, b = t;
+		case 2:
+			r = p;
+			g = v;
+			b = t;
 			break;
-		case 3: r = p, g = q, b = v;
+		case 3:
+			r = p;
+			g = q;
+			b = v;
 			break;
-		case 4: r = t, g = p, b = v;
+		case 4:
+			r = t;
+			g = p;
+			b = v;
 			break;
-		case 5: r = v, g = p, b = q;
+		case 5:
+			r = v;
+			g = p;
+			b = q;
 			break;
+		default:
+			console.error('problem with hsvaToHex color conversion');
 	}
 
 	const rgba = [

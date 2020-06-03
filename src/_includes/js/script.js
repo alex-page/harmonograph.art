@@ -54,7 +54,8 @@ window.getInitialData = () => {
 			this.pendulums = pendulums;
 			this.backgroundColor = getRandomColor();
 			this.strokeColor = getRandomColor();
-			this.isDrawing = false;
+			this.setUpColorPicker('backgroundColor');
+			this.setUpColorPicker('strokeColor');
 		},
 
 		download() {
@@ -87,10 +88,10 @@ window.getInitialData = () => {
 				backgroundColor: this.backgroundColor.replace('#', ''),
 				strokeWidth: this.strokeWidth,
 				drawTime: this.drawTime,
-				pendulums: this.pendulums.flatMap(pendulum => Object.values(pendulum)).join('+')
-			}).join('/');
+				pendulums: this.pendulums.flatMap(pendulum => Object.values(pendulum)).join(',')
+			}).join('+');
 
-			const url = `${window.location.origin}/${path}/`;
+			const url = `${window.location.origin}/?h=${path}`;
 
 			if (navigator.share) {
 				await navigator.share({
@@ -123,6 +124,18 @@ window.getInitialData = () => {
 		resetPathAnimation() {
 			this.drawTime = 0;
 			this.startPathAnimation();
+		},
+
+		scrollTo(key, scrollableElement) {
+			const labelKey = `${key}Label`;
+			const isScrollable = scrollableElement.scrollHeight > scrollableElement.clientHeight;
+			if (!isScrollable) {
+				return;
+			}
+
+			const topOffset = this.$refs[labelKey].offsetTop - scrollableElement.offsetTop;
+			scrollableElement.scrollTo({top: topOffset});
+			this.setUpColorPicker(key);
 		},
 
 		updateHue(hue, key) {
@@ -190,6 +203,10 @@ window.getInitialData = () => {
 
 		updateXY(event, key) {
 			const pickerKey = `${key}Picker`;
+
+			if (!event.clientX && !event.touches) {
+				return;
+			}
 
 			const eventX = event.clientX || event.touches[0].clientX;
 			const eventY = event.clientY || event.touches[0].clientY;

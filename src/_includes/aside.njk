@@ -1,0 +1,36 @@
+<div 
+	class="aside-content"
+	x-ref="scrollableAside"
+	@scroll.debounce="
+		setUpColorPicker('strokeColor');
+		setUpColorPicker('backgroundColor');
+	"
+>
+	<div class="aside-section">
+		{{content | safe}}
+		<button @click="randomise" class="secondary rotate-icon">
+			{% include 'icons/random.njk' %} Randomise harmonograph
+		</button>
+	</div>
+	<div class="aside-section">
+		{% import "forms.njk" as forms %}
+		{{ forms.colorinput('strokeColor', 'Stroke color') }}
+		{{ forms.colorinput('backgroundColor', 'Background color') }}
+		{{ forms.rangeslider('strokeWidth', 'Stroke width', 0.25, 10, 0.25) }}
+	</div>
+</div>
+<div class="aside-footer">
+	<button
+		@click="isCopying = !navigator.share; share($refs.shareButton)"
+		@click.debounce.1000="isCopying = false"
+		x-show="!isCopying"
+	>
+		{% include 'icons/share.njk' %} Share
+	</button>
+	<button x-cloak x-show="isCopying">
+		{% include 'icons/success.njk' %} Copied
+	</button>
+	<button @click="download">
+		{% include 'icons/download.njk' %} Download
+	</button>
+</div>

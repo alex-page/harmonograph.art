@@ -7,7 +7,7 @@ export const getPendulums = pendulums => {
 	}
 
 	const newPendulums = [];
-	const pendulumArray = pendulums.split('+').map(value => Number(value));
+	const pendulumArray = pendulums.split(',').map(value => Number(value));
 	for (let i = 0; i < pendulumArray.length; i += 4) {
 		newPendulums.push({
 			amplitude: pendulumArray[i],
@@ -20,7 +20,13 @@ export const getPendulums = pendulums => {
 	return newPendulums;
 };
 
-export const getRandomColor = () => `#${Math.random().toString(16).slice(2, 8).toString(16).toUpperCase()}`;
+export const getColor = color => {
+	if (!color) {
+		return `#${Math.random().toString(16).slice(2, 8).toString(16).toUpperCase()}`;
+	}
+
+	return `#${color}`;
+};
 
 export const rgbaToHsva = ([r, g, b, a]) => {
 	const max = Math.max(r, g, b);

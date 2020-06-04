@@ -20,7 +20,7 @@
 	<button
 		class="secondary"
 		x-show="!isDrawing && drawTime < 100"
-		@click="startPathAnimation()"
+		@click="playPathAnimation()"
 	>
 		{% include 'icons/play.njk' %}
 		<span class="sr-only">Play</span>

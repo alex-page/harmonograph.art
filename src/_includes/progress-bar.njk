@@ -1,0 +1,29 @@
+{% import "forms.njk" as forms %}
+
+<div class="progress-bar">
+	<button
+		class="secondary"
+		x-show="!isDrawing && drawTime >= 100"
+		@click="resetPathAnimation()"
+	>
+		{% include 'icons/replay.njk' %}
+		<span class="sr-only">Replay</span>
+	</button>
+	<button
+		class="secondary"
+		x-show="isDrawing"
+		@click="pausePathAnimation()"
+	>
+		{% include 'icons/pause.njk' %}
+		<span class="sr-only">Pause</span>
+	</button>
+	<button
+		class="secondary"
+		x-show="!isDrawing && drawTime < 100"
+		@click="playPathAnimation()"
+	>
+		{% include 'icons/play.njk' %}
+		<span class="sr-only">Play</span>
+	</button>
+	{{ forms.rangeslider('drawTime', 'Progress', 0, 100, 1, true) }}
+</div>

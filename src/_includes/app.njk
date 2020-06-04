@@ -1,0 +1,27 @@
+<svg
+	x-ref="svg"
+	:style="`background-color: ${backgroundColor}`"
+	viewBox="0 0 700 700"
+	xmlns="http://www.w3.org/2000/svg"
+>
+	<path
+		:stroke="strokeColor"
+		:stroke-width="strokeWidth"
+		:d="path"
+		fill="none"
+		pathLength="100"
+		stroke-linecap="round"
+		:style="`
+			stroke-dasharray: 100;
+			stroke-dashoffset: ${100 - drawTime};
+			transition: ${isDrawing && drawTime > 0 ? 'stroke-dashoffset 1s linear' : 'none'};
+			will-change: stroke-dashoffset;
+		`"
+	>
+	</path>
+</svg>
+{% include 'progress-bar.njk' %}
+<noscript>
+	<p>The application requires JavaScript to work 💔.</p>
+	<img src="https://api.harmonograph.art/28a745" alt="A randomised harmonograph">
+</noscript>

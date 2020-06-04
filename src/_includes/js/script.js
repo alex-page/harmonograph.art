@@ -4,7 +4,7 @@ import {harmonographBezierPath} from '@harmonograph/svg';
 
 import {
 	getPendulums,
-	getRandomColor,
+	getColor,
 	rgbaToHsva,
 	hsvaToHex
 } from './utils';
@@ -13,15 +13,16 @@ import {
 Alpine.start();
 
 window.getInitialData = () => {
-	const pendulums = getPendulums();
-	const backgroundColor = getRandomColor();
-	const strokeColor = getRandomColor();
+	const queryString = window.location.search.replace('?h=', '').split('+');
+	const strokeColor = getColor(queryString[0]);
+	const backgroundColor = getColor(queryString[1]);
+	const pendulums = getPendulums(queryString[5]);
 
 	return {
-		strokeWidth: 1,
-		drawTime: 0,
+		strokeWidth: queryString[2] || 1,
+		drawTime: Number(queryString[3]) || 0,
 		drawTimeInterval: null,
-		isDrawing: false,
+		isDrawing: queryString[4] !== 'false',
 		backgroundColor,
 		backgroundColorInput: backgroundColor,
 		strokeColor,
@@ -52,9 +53,11 @@ window.getInitialData = () => {
 			const pendulums = getPendulums();
 			this.path = harmonographBezierPath(300, 700, pendulums);
 			this.pendulums = pendulums;
-			this.backgroundColor = getRandomColor();
-			this.strokeColor = getRandomColor();
-			this.isDrawing = false;
+			this.backgroundColor = getColor();
+			this.strokeColor = getColor();
+			this.setUpColorPicker('backgroundColor');
+			this.setUpColorPicker('strokeColor');
+			history.pushState(null, '', '?');
 		},
 
 		download() {
@@ -87,10 +90,11 @@ window.getInitialData = () => {
 				backgroundColor: this.backgroundColor.replace('#', ''),
 				strokeWidth: this.strokeWidth,
 				drawTime: this.drawTime,
-				pendulums: this.pendulums.flatMap(pendulum => Object.values(pendulum)).join('+')
-			}).join('/');
+				isDrawing: this.isDrawing,
+				pendulums: this.pendulums.flatMap(pendulum => Object.values(pendulum)).join(',')
+			}).join('+');
 
-			const url = `${window.location.origin}/${path}/`;
+			const url = `${window.location.origin}/?h=${path}`;
 
 			if (navigator.share) {
 				await navigator.share({
@@ -104,13 +108,21 @@ window.getInitialData = () => {
 		},
 
 		startPathAnimation() {
-			this.isDrawing = true;
+			if (!this.isDrawing) {
+				return;
+			}
+
 			this.drawTimeInterval = setInterval(() => {
 				this.drawTime += 1;
 				if (this.drawTime >= 100) {
 					this.pausePathAnimation();
 				}
 			}, 1000);
+		},
+
+		playPathAnimation() {
+			this.isDrawing = true;
+			this.startPathAnimation();
 		},
 
 		pausePathAnimation() {
@@ -122,7 +134,19 @@ window.getInitialData = () => {
 
 		resetPathAnimation() {
 			this.drawTime = 0;
-			this.startPathAnimation();
+			this.playPathAnimation();
+		},
+
+		scrollTo(key, scrollableElement) {
+			const labelKey = `${key}Label`;
+			const isScrollable = scrollableElement.scrollHeight > scrollableElement.clientHeight;
+			if (!isScrollable) {
+				return;
+			}
+
+			const topOffset = this.$refs[labelKey].offsetTop - scrollableElement.offsetTop;
+			scrollableElement.scrollTo({top: topOffset});
+			this.setUpColorPicker(key);
 		},
 
 		updateHue(hue, key) {
@@ -190,6 +214,10 @@ window.getInitialData = () => {
 
 		updateXY(event, key) {
 			const pickerKey = `${key}Picker`;
+
+			if (!event.clientX && !event.touches) {
+				return;
+			}
 
 			const eventX = event.clientX || event.touches[0].clientX;
 			const eventY = event.clientY || event.touches[0].clientY;

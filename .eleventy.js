@@ -1,20 +1,12 @@
 // Dependencies
-const minifyCss = require('clean-css');
 const {exec} = require('child_process');
+const htmlmin = require("html-minifier");
 
 
 // Local dependencies
 const fs = require('fs');
 
 module.exports = ( eleventyConfig ) => {
-	/**
-	 * cssmin - Minify CSS filter
-	 */
-	eleventyConfig.addFilter( 'cssmin', code => {
-		const minified = new minifyCss({}).minify( code ).styles;
-		return minified;
-	});
-
 	/**
 	 * Rollup javascript
 	 */
@@ -52,6 +44,21 @@ module.exports = ( eleventyConfig ) => {
 				});
 			}
 		}
+	});
+
+	eleventyConfig.addTransform("htmlmin", function(content, outputPath) {
+		if( outputPath.endsWith(".html") ) {
+			let minified = htmlmin.minify(content, {
+				minifyCSS: true,
+				minifyJS: true,
+				useShortDoctype: true,
+				removeComments: true,
+				collapseWhitespace: true,
+			});
+			return minified;
+		}
+
+		return content;
 	});
 
 	// The configuration object ( optional )

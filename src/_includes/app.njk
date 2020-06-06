@@ -11,12 +11,7 @@
 		fill="none"
 		pathLength="100"
 		stroke-linecap="round"
-		:style="`
-			stroke-dasharray: 100;
-			stroke-dashoffset: ${100 - drawTime};
-			transition: ${isDrawing && drawTime > 0 ? 'stroke-dashoffset 1s linear' : 'none'};
-			will-change: stroke-dashoffset;
-		`"
+		:style="` stroke-dasharray: 100; stroke-dashoffset: ${100 - drawTime}; transition: ${isDrawing && drawTime > 0 ? 'stroke-dashoffset 1s linear' : 'none'}; will-change: stroke-dashoffset;`"
 	>
 	</path>
 </svg>

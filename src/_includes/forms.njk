@@ -17,11 +17,7 @@
 		@touchmove.window="{{id}}Picker.interactive && updateXY($event, '{{id}}')"
 		@touchend.window="{{id}}Picker.interactive = false"
 	>
-		<div :style="`
-			background-color: hsl(${ {{id}}Picker.hue }, 100%, 50%);
-			opacity:${ {{id}}Picker.alpha };
-			will-change: background-color;
-	`">
+		<div :style="` background-color: hsl(${ {{id}}Picker.hue }, 100%, 50%); opacity:${ {{id}}Picker.alpha }; will-change: background-color;`">
 			<div class="white-gradient">
 				<div class="black-gradient"></div>
 			</div>

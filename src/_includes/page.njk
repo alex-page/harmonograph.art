@@ -4,7 +4,7 @@
 	{% include 'meta.njk' %}
 	<title>{{pkg.name}} - v{{pkg.version}}</title>
 	{% set css %}{% include 'css/style.css' %}{% endset %}
-	<style>{{css | cssmin | safe}}</style>
+	<style>{{css | safe}}</style>
 	<script>document.documentElement.classList.add('js')</script>
 </head>
 <body>
@@ -17,15 +17,8 @@
 	<main
 		id="content"
 		x-data="getInitialData()"
-		x-init="{
-			...setUpColorPicker('strokeColor'),
-			...setUpColorPicker('backgroundColor'),
-			...startPathAnimation(),
-		}"
-		x-on:resize.window.debounce="
-			setUpColorPicker('strokeColor');
-			setUpColorPicker('backgroundColor');
-		"
+		x-init="{ ...setUpColorPicker('strokeColor'), ...setUpColorPicker('backgroundColor'), ...startPathAnimation()}"
+		x-on:resize.window.debounce=" setUpColorPicker('strokeColor'); setUpColorPicker('backgroundColor');"
 	>
 		<div class="app-container">
 			{% include 'app.njk' %}

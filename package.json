@@ -41,7 +41,6 @@
 		"@rollup/plugin-commonjs": "^11.0.2",
 		"@rollup/plugin-node-resolve": "^7.1.1",
 		"alpinejs": "^2.3.5",
-		"clean-css": "^4.2.3",
 		"color-string": "^1.5.3",
 		"html-minifier": "^4.0.0",
 		"rollup": "^2.2.0",

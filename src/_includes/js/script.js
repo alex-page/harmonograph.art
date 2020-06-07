@@ -23,7 +23,7 @@ window.getInitialData = () => {
 		strokeWidth: queryString[2] || 1,
 		drawTime: Number(queryString[3]) || 0,
 		drawTimeInterval: null,
-		isDrawing: false,
+		isDrawing: queryString[4] !== 'false',
 		backgroundColor,
 		backgroundColorInput: backgroundColor,
 		strokeColor,

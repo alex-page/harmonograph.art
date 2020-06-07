@@ -5,13 +5,13 @@
 	xmlns="http://www.w3.org/2000/svg"
 >
 	<path
+		fill="none"
+		stroke-linecap="round"
 		:stroke="strokeColor"
 		:stroke-width="strokeWidth"
 		:d="path"
-		fill="none"
-		pathLength="100"
-		stroke-linecap="round"
-		:style="` stroke-dasharray: 100; stroke-dashoffset: ${100 - drawTime}; transition: ${isDrawing && drawTime > 0 ? 'stroke-dashoffset 1s linear' : 'none'}; will-change: stroke-dashoffset;`"
+		x-cloak
+		:style="`stroke-dasharray: ${pathLength}; stroke-dashoffset: ${pathLength - (drawTime / 100 * pathLength)}; transition: ${isDrawing && pathLength !== null && drawTime > 0 ? 'stroke-dashoffset 1s linear' : 'none'}; will-change: stroke-dashoffset; opacity: ${pathLength ? 1 : 0}`"
 	>
 	</path>
 </svg>

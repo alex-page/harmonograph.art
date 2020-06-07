@@ -17,17 +17,19 @@ window.getInitialData = () => {
 	const strokeColor = getColor(queryString[0]);
 	const backgroundColor = getColor(queryString[1]);
 	const pendulums = getPendulums(queryString[5]);
+	const path = harmonographBezierPath(150, 700, pendulums);
 
 	return {
 		strokeWidth: queryString[2] || 1,
 		drawTime: Number(queryString[3]) || 0,
 		drawTimeInterval: null,
-		isDrawing: queryString[4] !== 'false',
+		isDrawing: false,
 		backgroundColor,
 		backgroundColorInput: backgroundColor,
 		strokeColor,
 		strokeColorInput: strokeColor,
-		path: harmonographBezierPath(300, 700, pendulums),
+		pathLength: null,
+		path,
 		pendulums,
 		isCopying: false,
 		backgroundColorPicker: {
@@ -49,15 +51,35 @@ window.getInitialData = () => {
 			rect: {}
 		},
 
+		initApp() {
+			this.setUpColorPicker('strokeColor');
+			this.setUpColorPicker('backgroundColor');
+			this.getPathLength();
+			this.isDrawing = queryString[4] !== 'false';
+			this.$nextTick(() => {
+				this.startAnimation();
+			});
+		},
+
+		getPathLength() {
+			this.$nextTick(() => {
+				const path = this.$refs.svg.querySelector('path');
+				this.pathLength = path.getTotalLength();
+			});
+		},
+
 		randomise() {
 			const pendulums = getPendulums();
-			this.path = harmonographBezierPath(300, 700, pendulums);
 			this.pendulums = pendulums;
 			this.backgroundColor = getColor();
 			this.strokeColor = getColor();
+			this.pathLength = null;
+			this.path = harmonographBezierPath(150, 700, pendulums);
 			this.setUpColorPicker('backgroundColor');
 			this.setUpColorPicker('strokeColor');
 			history.pushState(null, '', '?');
+			this.getPathLength();
+			this.pauseAnimation();
 		},
 
 		download() {
@@ -107,7 +129,7 @@ window.getInitialData = () => {
 			}
 		},
 
-		startPathAnimation() {
+		startAnimation() {
 			if (!this.isDrawing) {
 				return;
 			}
@@ -115,26 +137,42 @@ window.getInitialData = () => {
 			this.drawTimeInterval = setInterval(() => {
 				this.drawTime += 1;
 				if (this.drawTime >= 100) {
-					this.pausePathAnimation();
+					this.pauseAnimation();
 				}
 			}, 1000);
 		},
 
-		playPathAnimation() {
+		playAnimation() {
 			this.isDrawing = true;
-			this.startPathAnimation();
+			this.startAnimation();
 		},
 
-		pausePathAnimation() {
+		pauseAnimation() {
 			if (this.drawTimeInterval) {
 				this.isDrawing = false;
 				clearInterval(this.drawTimeInterval);
 			}
 		},
 
-		resetPathAnimation() {
+		resetAnimation() {
 			this.drawTime = 0;
-			this.playPathAnimation();
+			this.playAnimation();
+		},
+
+		skipForward() {
+			if (this.drawTime + 5 >= 100) {
+				this.drawTime = 100;
+			}
+
+			this.drawTime += 5;
+		},
+
+		skipBackward() {
+			if (this.drawTime - 5 <= 0) {
+				this.drawTime = 0;
+			}
+
+			this.drawTime -= 5;
 		},
 
 		scrollTo(key, scrollableElement) {

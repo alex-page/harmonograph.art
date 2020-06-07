@@ -27,6 +27,7 @@ module.exports = ( eleventyConfig ) => {
 	 */
 	eleventyConfig.addPassthroughCopy({'src/_assets': 'assets'});
 	eleventyConfig.addPassthroughCopy('src/CNAME');
+	eleventyConfig.addPassthroughCopy('src/manifest.json');
 
 	// Adjust default browserSync config
 	eleventyConfig.setBrowserSyncConfig({

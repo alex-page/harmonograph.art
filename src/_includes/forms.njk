@@ -3,9 +3,9 @@
 	x-cloak
 	class="color-picker"
 	x-show="{{id}}Picker.open"
-	x-on:keydown.escape="{{id}}Picker.open = false; {{id}}Picker.interactive = false"
-	x-on:mousedown.away="{{id}}Picker.open = false; {{id}}Picker.interactive = false"
-	x-on:touchend.away="{{id}}Picker.open = false; {{id}}Picker.interactive = false"
+	@keydown.escape.window="{{id}}Picker.open = false; {{id}}Picker.interactive = false"
+	@mousedown.away="{{id}}Picker.open = false; {{id}}Picker.interactive = false"
+	@touchend.away="{{id}}Picker.open = false; {{id}}Picker.interactive = false"
 >
 	<div
 		class="color-swatch transparent-bg"

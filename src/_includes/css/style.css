@@ -332,7 +332,7 @@ input[type=text] {
 	color: var(--text-color);
 	border: 0;
 	font-family: var(--base-font);
-	font-size: 0.9rem;
+	font-size: 1rem;
 	padding: 0.75rem 1rem;
 	border-radius: 0.25rem;
 }

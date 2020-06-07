@@ -2,10 +2,19 @@
 <html lang="en">
 <head>
 	{% include 'meta.njk' %}
-	<title>{{pkg.name}} - v{{pkg.version}}</title>
+
 	{% set css %}{% include 'css/style.css' %}{% endset %}
-	<style>{{css | cssmin | safe}}</style>
-	<script>document.documentElement.classList.add('js')</script>
+	<style>{{css | safe}}</style>
+	<script>
+		document.documentElement.classList.add('js');
+		// Check that service workers are registered
+		if ('serviceWorker' in navigator) {
+			// Use the window load event to keep the page load performant
+			window.addEventListener('load', function() {
+				navigator.serviceWorker.register('/service-worker.js');
+			});
+		}
+	</script>
 </head>
 <body>
 	<a class="skip-link sr-only" href="#content">Skip to content</a>
@@ -17,17 +26,10 @@
 	<main
 		id="content"
 		x-data="getInitialData()"
-		x-init="{
-			...setUpColorPicker('strokeColor'),
-			...setUpColorPicker('backgroundColor'),
-			...startPathAnimation(),
-		}"
-		x-on:resize.window.debounce="
-			setUpColorPicker('strokeColor');
-			setUpColorPicker('backgroundColor');
-		"
+		x-init="initApp()"
+		@resize.window.debounce="setUpColorPicker('strokeColor'); setUpColorPicker('backgroundColor');"
 	>
-		<div class="app-container">
+		<div class="app-container" x-cloak>
 			{% include 'app.njk' %}
 		</div>
 

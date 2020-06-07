@@ -2,6 +2,7 @@
 	class="aside-content"
 	x-ref="scrollableAside"
 	@scroll.debounce=" setUpColorPicker('strokeColor'); setUpColorPicker('backgroundColor');"
+	:style="`overflow-y: ${(backgroundColorPicker.open || strokeColorPicker.open) ? 'hidden' : 'auto'}`"
 >
 	<div class="aside-section">
 		{{content | safe}}

@@ -254,7 +254,6 @@ aside {
 
 .aside-content {
 	flex: 1;
-	overflow-y: auto;
 }
 
 .aside-section {

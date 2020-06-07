@@ -1,10 +1,15 @@
 {% import "forms.njk" as forms %}
 
-<div class="progress-bar">
+<div
+	class="progress-bar"
+	@keydown.space.window="isDrawing ? pauseAnimation() : playAnimation()"
+	@keydown.arrow-right.window="skipForward()"
+	@keydown.arrow-left.window="skipBackward()"
+>
 	<button
 		class="secondary"
 		x-show="!isDrawing && drawTime >= 100"
-		@click="resetPathAnimation()"
+		@click="resetAnimation()"
 	>
 		{% include 'icons/replay.njk' %}
 		<span class="sr-only">Replay</span>
@@ -12,7 +17,7 @@
 	<button
 		class="secondary"
 		x-show="isDrawing"
-		@click="pausePathAnimation()"
+		@click="pauseAnimation()"
 	>
 		{% include 'icons/pause.njk' %}
 		<span class="sr-only">Pause</span>
@@ -20,7 +25,7 @@
 	<button
 		class="secondary"
 		x-show="!isDrawing && drawTime < 100"
-		@click="playPathAnimation()"
+		@click="playAnimation()"
 	>
 		{% include 'icons/play.njk' %}
 		<span class="sr-only">Play</span>

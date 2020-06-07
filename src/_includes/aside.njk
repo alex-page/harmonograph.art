@@ -1,10 +1,7 @@
 <div 
 	class="aside-content"
 	x-ref="scrollableAside"
-	@scroll.debounce="
-		setUpColorPicker('strokeColor');
-		setUpColorPicker('backgroundColor');
-	"
+	@scroll.debounce=" setUpColorPicker('strokeColor'); setUpColorPicker('backgroundColor');"
 >
 	<div class="aside-section">
 		{{content | safe}}

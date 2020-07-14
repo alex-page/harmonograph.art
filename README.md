@@ -2,17 +2,17 @@
 
 > 👩‍🎨 Draw, download and share a randomised harmonograph.
 
-A micro progressive web application (<30kb) to draw, download and share a randomised harmonograph. It is free to use, open source and built with [eleventy](https://github.com/11ty/eleventy) and [alpinejs](https://github.com/alpinejs/alpine).
+A micro progressive web application (<30kb) to draw, download and share a randomised harmonograph. A free to use, open source and built with [eleventy](https://github.com/11ty/eleventy) and [alpinejs](https://github.com/alpinejs/alpine).
 
 ## Why?
 
-This project is inspired by science museums around the world including Questacon, Exploratorium and the Boston Museum of Science. They have pendulums that swing and draw harmonographs for you to take home!
+Science museums around the world including Questacon, Exploratorium and the Boston Museum of Science inspired this project. They have pendulums that swing and draw harmonographs for you to take home!
 
 With temporary closures I have tried to bring that experience online.
 
 ## Related packages
 
-This application is made out of multiple open source libraries I maintain.
+Open source libraries I maintain create the foundations of this project. Check them out:
 
 - Generate a harmonographs X and Y coordinates with [@harmonograph/xy](https://www.npmjs.com/package/@harmonograph/xy).
 - Draw and animate a harmonograph in SVG with [@harmonograph/svg](https://www.npmjs.com/package/@harmonograph/svg).

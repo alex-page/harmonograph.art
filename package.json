@@ -1,7 +1,7 @@
 {
 	"private": true,
 	"name": "harmonograph.art",
-	"version": "0.1.0",
+	"version": "0.1.1",
 	"description": "Draw, download and share a randomised harmonograph.",
 	"author": {
 		"name": "Alex Page",
@@ -50,7 +50,7 @@
 	},
 	"devDependencies": {
 		"write-good": "^1.0.2",
-		"xo": "^0.30.0"
+		"xo": "^0.32.1"
 	},
 	"xo": {
 		"env": "browser"

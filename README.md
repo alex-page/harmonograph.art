@@ -8,7 +8,7 @@ A micro progressive web application (<30kb) to draw, download and share a random
 
 Science museums around the world including Questacon, Exploratorium and the Boston Museum of Science inspired this project. They have pendulums that swing and draw harmonographs for you to take home!
 
-With temporary closures I have tried to bring that experience online.
+With temporary closures during 2020 I have tried to bring that experience online.
 
 ## Related packages
 

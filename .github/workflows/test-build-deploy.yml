@@ -3,7 +3,7 @@ name: Deploy site on master
 on:
   push:
     branches:
-    - master
+    - main
 
 jobs:
   deploy:
@@ -11,7 +11,7 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@master
+    - uses: actions/checkout@main
     - name: Use Node.js 10.x
       uses: actions/setup-node@v1
       with:
@@ -22,6 +22,6 @@ jobs:
         npm run test
         npm run build
     - name: Deploy site to gh-pages branch
-      uses: alex-page/blazing-fast-gh-pages-deploy@master
+      uses: alex-page/blazing-fast-gh-pages-deploy@main
       with:
         repo-token: ${{ secrets.GH_PAT }}

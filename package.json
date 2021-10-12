@@ -6,14 +6,14 @@
 	"author": {
 		"name": "Alex Page",
 		"email": "alex@alexpage.com.au",
-		"url": "http://alexpage.com.au/",
+		"url": "https://alexpage.dev/",
 		"twitter": "https://twitter.com/alexpage_/"
 	},
 	"contributors": [
 		{
 			"name": "Alex Page",
 			"email": "alex@alexpage.com.au",
-			"url": "http://alexpage.com.au"
+			"url": "https://alexpage.dev"
 		}
 	],
 	"scripts": {

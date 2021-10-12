@@ -1,7 +1,7 @@
 {
 	"private": true,
 	"name": "harmonograph.art",
-	"version": "0.1.0",
+	"version": "0.1.1",
 	"description": "Draw, download and share a randomised harmonograph.",
 	"author": {
 		"name": "Alex Page",
@@ -29,20 +29,20 @@
 	},
 	"repository": {
 		"type": "git",
-		"url": "git+https://github.com/alex-page/app-template"
+		"url": "git+https://github.com/alex-page/harmonograph.art"
 	},
 	"license": "MIT",
 	"bugs": {
-		"url": "https://github.com/alex-page/app-template/issues"
+		"url": "https://github.com/alex-page/harmonograph.art/issues"
 	},
-	"homepage": "https://github.com/alex-page/app-template#readme",
+	"homepage": "https://github.com/alex-page/harmonograph.art#readme",
 	"dependencies": {
 		"@11ty/eleventy": "^0.11.0-beta.2",
 		"@harmonograph/svg": "^0.2.0",
 		"@rollup/plugin-commonjs": "^11.0.2",
 		"@rollup/plugin-node-resolve": "^7.1.1",
 		"alpinejs": "^2.3.5",
-		"color-string": "^1.5.3",
+		"color-string": "^1.5.5",
 		"html-minifier": "^4.0.0",
 		"rollup": "^2.2.0",
 		"rollup-plugin-terser": "^5.3.0",
@@ -50,7 +50,7 @@
 	},
 	"devDependencies": {
 		"write-good": "^1.0.2",
-		"xo": "^0.30.0"
+		"xo": "^0.32.1"
 	},
 	"xo": {
 		"env": "browser"

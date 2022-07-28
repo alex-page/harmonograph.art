@@ -1,27 +1,41 @@
-name: Deploy site on master
+name: Deploy site on main
 
 on:
   push:
-    branches:
-    - main
+    branches: main
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
 
 jobs:
-  deploy:
-
+  build:
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@main
-    - name: Use Node.js 10.x
-      uses: actions/setup-node@v1
-      with:
-        node-version: 10.x
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 16
+
     - name: npm install, test content and build
-      run: |
-        npm install
-        npm run test
-        npm run build
-    - name: Deploy site to gh-pages branch
-      uses: alex-page/blazing-fast-gh-pages-deploy@main
-      with:
-        repo-token: ${{ secrets.GH_PAT }}
+      run: npm install && npm run test && npm run build
+
+      - uses: actions/upload-pages-artifact@v1
+        with:
+          path: ./_site
+
+  deploy:
+    needs: build
+
+    runs-on: ubuntu-latest
+
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v1

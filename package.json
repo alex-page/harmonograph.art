@@ -37,7 +37,7 @@
 	},
 	"homepage": "https://github.com/alex-page/harmonograph.art#readme",
 	"dependencies": {
-		"@11ty/eleventy": "^0.11.0-beta.2",
+		"@11ty/eleventy": "^1.0.2",
 		"@harmonograph/svg": "^0.2.0",
 		"@rollup/plugin-commonjs": "^11.0.2",
 		"@rollup/plugin-node-resolve": "^7.1.1",
